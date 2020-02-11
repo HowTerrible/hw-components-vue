@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # vuehwframe
 
 ## Project setup
@@ -23,6 +22,3 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-=======
-# hw-vue-template
->>>>>>> 3d5247cce82dbe3c3fa682cbfdef18829aab899a
