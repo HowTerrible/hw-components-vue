@@ -1,11 +1,11 @@
 <template>
-  <v-tooltip v-if="hasTips">
+  <v-tooltip v-if="hasTips" :placement="placement">
     <hw-button v-on="$listeners" v-bind="$attrs">
       <slot></slot>
     </hw-button>
     <div class="tip-content" slot="content">
       <template v-if="isArrayTips">
-        <p v-for="tip in tips" :key="tip">{{tip}}</p>
+        <span v-for="tip in tips" :key="tip">{{tip}}</span>
       </template>
       <template v-else>{{tips}}</template>
     </div>
@@ -17,13 +17,17 @@
 
 <script>
 import { Tooltip } from "view-design";
-import Button from "./Button";
+import Button from "./HW-Button";
 export default {
   inheritAttrs: false,
   name: "hw-tip-button",
   props: {
     tips: {
       type: [String, Array],
+      default: null
+    },
+    placement: {
+      type: String,
       default: null
     }
   },
@@ -34,9 +38,14 @@ export default {
     hasTips() {
       let result = false,
         tips = this.tips;
-      if (Array.isArray(tips) && tips.length !== 0) {
-        result = true;
-      } else {
+      // tips 是数组，判断是否有内容
+      if (Array.isArray(tips)) {
+        if (tips.length !== 0) {
+          result = true;
+        }
+      }
+      // tips是字符串，直接判断
+      else {
         if (tips !== undefined && tips !== null && tips !== "") {
           result = true;
         }
@@ -57,4 +66,7 @@ export default {
 <style lang="stylus" scoped>
 .tip-content {
   white-space: normal;
-}</style>
+  display: flex;
+  flex-direction: column;
+}
+</style>
