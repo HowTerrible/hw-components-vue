@@ -7,7 +7,7 @@ function GetUrlQueryValue(name, url) {
   if (!url) {
     url = window.location.search
   }
-  var reg = new RegExp("(^|&|\\u003F)" + name + "=([^&]*)(&|$)", "i");
+  var reg = new RegExp(`(^|&|\\u003F)${name}=([^&]*)(&|$)`, "i");
   var r = decodeURI(url).substr(1).match(reg);
   if (r != null) return r[2]; return null;
 }
