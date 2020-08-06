@@ -9,7 +9,16 @@
           <slot></slot>
         </div>
       </div>
-      <div class="open-btn" :class="[localOpen?'hide':'show']" @click="toggleOpen">V</div>
+      <slot name>
+        <div
+          class="open-btn"
+          :class="[localOpen?'hide':'show']"
+          :style="btnStyle"
+          @click="localOpen = !localOpen"
+        >
+          <span class="open-btn-arrow"></span>
+        </div>
+      </slot>
     </div>
   </div>
 </template>
@@ -34,6 +43,11 @@ export default {
       type: Number,
       default: 300,
     },
+    collapseBtnPosition: {
+      type: String,
+      default: "right",
+      validator: (item) => ["left", "right"].indexOf(item) >= 0,
+    },
   },
   model: {
     prop: "open",
@@ -43,6 +57,10 @@ export default {
     return {
       localOpen: this.open,
     };
+  },
+  created() {
+    this.paddingTop = 5;
+    this.paddingBottom = 5;
   },
   computed: {
     solidStyle() {
@@ -60,15 +78,22 @@ export default {
       let result = {};
       const height = this.height;
       const localOpen = this.localOpen;
-      const paddingTop = 5;
-      const paddingBottom = 5;
+      localOpen
+        ? (result["max-height"] = result["height"] =
+            this.$refs.displayArea.scrollHeight +
+            this.paddingTop +
+            this.paddingBottom +
+            "px")
+        : (result["max-height"] = result["height"] = this.solidStyle["height"]);
 
-      if (localOpen) {
-        result["max-height"] = this.maxHeight + "px";
-        result["height"] = this.$refs.displayArea.scrollHeight + paddingTop + paddingBottom + "px";
-      } else {
-        result["max-height"] = result["height"] = this.solidStyle["height"];
-      }
+      result[`padding-${this.collapseBtnPosition}`] = this.btnStyle.width;
+      return result;
+    },
+    btnStyle() {
+      let result = {};
+      result[this.collapseBtnPosition] = 0;
+      let size = this.height > 40 ? 40 : this.height;
+      result.width = result.height = size + "px";
 
       return result;
     },
@@ -81,11 +106,7 @@ export default {
       this.$emit("open-change", newValue);
     },
   },
-  methods: {
-    toggleOpen() {
-      this.localOpen = !this.localOpen;
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -100,7 +121,7 @@ export default {
   top: 0px;
   left: 0px;
   overflow: hidden;
-  padding: 5px 20px 5px 10px;
+  padding: 5px 10px 5px 10px;
   border: 1px solid #ddd;
   width: 100%;
   box-sizing: border-box;
@@ -122,7 +143,6 @@ export default {
   width: 20px;
   position: absolute;
   top: 0;
-  right: 0;
 }
 
 .open-btn:hover {
@@ -131,5 +151,20 @@ export default {
 
 .open-btn.hide {
   transform: rotate(180deg);
+}
+
+.open-btn-arrow {
+  position: relative;
+  display: inline-block;
+  width: 30%;
+  height: 30%;
+  border-top: 1px solid gray;
+  border-left: 1px solid gray;
+  border-right: none;
+  border-bottom: none;
+  box-sizing: border-box;
+  transform: rotate(45deg);
+  margin-top: 38%;
+  margin-left: 38%;
 }
 </style>
