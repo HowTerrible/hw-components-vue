@@ -1,4 +1,7 @@
 const path = require('path')
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
 
 module.exports = {
   lintOnSave: true,
@@ -6,7 +9,14 @@ module.exports = {
     loaderOptions: { less: { javascriptEnabled: true } }
   },
   configureWebpack: {
-    devtool: "cheap-module-eval-source-map"
+    devtool: "cheap-module-eval-source-map",
+    resolve: {
+      alias: {
+        '@components': resolve("src/components"),
+        '@js': resolve("src/js"),
+        '@styles': resolve("src/styles")
+      }
+    }
   },
   chainWebpack: config => {
     config.entry.app = ['babel-polyfill', './src/main.js']
