@@ -1,7 +1,8 @@
 export const componentsConfig = [
   {
     name: "HWTreeDemo",
-    path: "./view/data/HWTreeDemo.vue"
+    path:"/data/HWTreeDemo",
+    component:() => import("../views/data/HWTreeDemo.vue")
   }
 ]
 

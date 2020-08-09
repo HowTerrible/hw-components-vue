@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <router-view></router-view>
     <!-- <div class="btnDiv">
       <hw-tipsbtn>dsadf</hw-tipsbtn>
       <hw-tipsbtn :tips="tips1">dsadf</hw-tipsbtn>
@@ -35,12 +34,15 @@
       <!-- <hw-button @click="()=>onComponentClick(config)" :key="config.name">{{config.name}}</hw-button> -->
       <router-link :to="config.path" :key="config.name">{{config.name}}</router-link>
     </template>
+    <div class="display-area">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 <script>
 import { componentsConfig } from "./config/components";
 // import IFrameDialog from "./components/general/HW-IFrame-Dialog";
-import Button from "./components/general/HW-Button";
+// import Button from "./components/general/HW-Button";
 // import TipsButton from "./components/general/HW-TipsButton";
 // import CollapsiblePanel from "./components/layout/HW-CollapsiblePanel";
 export default {
@@ -48,7 +50,7 @@ export default {
   components: {
     // "hw-tipsbtn": TipsButton,
     // "hw-iframe-dialog": IFrameDialog,
-    "hw-button": Button,
+    // "hw-button": Button,
     // "hw-collapsible-panel": CollapsiblePanel,
   },
   data() {
@@ -71,13 +73,15 @@ export default {
 <style lang="stylus" scoped>
 .home {
   width: 100vw;
-  height: 20vh;
+  height: 100vh;
+  overflow: hidden;
 
   >* {
     margin-right: 10px;
   }
 }
 
-.panel-content {
+.display-area {
+  width: 100%;
 }
 </style>

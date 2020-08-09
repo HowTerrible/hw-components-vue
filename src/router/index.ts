@@ -5,11 +5,13 @@ import { componentsConfig } from "../config/components"
 Vue.use(VueRouter)
 
 const routes = [
-]
-componentsConfig.forEach(config => routes.push({
-  ...config,
-  component: () => import(config.path)
-}))
+];
+
+componentsConfig.forEach(config => {
+  routes.push({
+    ...config
+  })
+})
 
 const router = new VueRouter({
   routes
