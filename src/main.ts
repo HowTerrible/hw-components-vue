@@ -4,6 +4,10 @@ import router from './router'
 import store from './store'
 import 'view-design/dist/styles/iview.css';
 
+// 全局引入message（模拟Vuex的引用方式）
+import message from "./lib/message"
+Vue.use(message)
+
 Vue.config.productionTip = false
 
 Vue.prototype.$dispatch = function (eventName, value) {

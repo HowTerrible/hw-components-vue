@@ -1,6 +1,6 @@
 <template>
   <v-tooltip v-if="hasTips" :placement="placement">
-    <hw-button v-on="$listeners" v-bind="$attrs">
+    <hw-button v-on="$listeners" :disabled="disabledWhenTips && tips.length > 0" v-bind="$attrs">
       <slot></slot>
     </hw-button>
     <div class="tip-content" slot="content">
@@ -24,12 +24,16 @@ export default {
   props: {
     tips: {
       type: [String, Array],
-      default: null
+      default: null,
     },
     placement: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
+    disabledWhenTips: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {};
@@ -54,12 +58,12 @@ export default {
     },
     isArrayTips() {
       return Array.isArray(this.tips);
-    }
+    },
   },
   components: {
     "v-tooltip": Tooltip,
-    "hw-button": Button
-  }
+    "hw-button": Button,
+  },
 };
 </script>
 
