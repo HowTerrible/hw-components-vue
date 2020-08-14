@@ -9,16 +9,14 @@
           <slot></slot>
         </div>
       </div>
-      <slot name>
-        <div
-          class="open-btn"
-          :class="[localOpen?'hide':'show']"
-          :style="btnStyle"
-          @click="localOpen = !localOpen"
-        >
-          <span class="open-btn-arrow"></span>
-        </div>
-      </slot>
+      <div
+        class="open-btn"
+        :class="[localOpen?'hide':'show']"
+        :style="btnStyle"
+        @click="localOpen = !localOpen"
+      >
+        <span class="open-btn-arrow"></span>
+      </div>
     </div>
   </div>
 </template>
@@ -48,6 +46,10 @@ export default {
       default: "right",
       validator: (item) => ["left", "right"].indexOf(item) >= 0,
     },
+    zIndex: {
+      type: Number,
+      default: 1,
+    },
   },
   model: {
     prop: "open",
@@ -75,8 +77,9 @@ export default {
       return result;
     },
     flowStyle() {
-      let result = {};
-      const height = this.height;
+      let result = {
+        "z-index": this.zIndex,
+      };
       const localOpen = this.localOpen;
       localOpen
         ? (result["max-height"] = result["height"] =
@@ -126,7 +129,6 @@ export default {
   width: 100%;
   box-sizing: border-box;
   box-shadow: 2px 2px 2px 0px #dddddda8;
-  z-index: 1;
   background: white;
 }
 

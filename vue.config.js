@@ -31,7 +31,8 @@ function addStyleResource(rule) {
     .loader('style-resources-loader')
     .options({
       patterns: [
-        path.resolve(__dirname, './src/styles/imports.styl'),
+        path.resolve(__dirname, './src/styles/common-color.styl'),
+        path.resolve(__dirname, './src/styles/common-style.styl')
       ],
     })
 }

@@ -17,7 +17,7 @@
 
 <script>
 import { Tooltip } from "view-design";
-import Button from "./HW-Button";
+import Button from "./Button";
 export default {
   inheritAttrs: false,
   name: "hw-tip-button",

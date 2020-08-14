@@ -99,7 +99,7 @@ export default {
           targetIndex >= 0 ? this.value.splice(targetIndex, 1) : null;
           this.$emit("value-change", this.value);
         } else {
-          this.$emit("value-change", this.falseValue);
+          // this.$emit("value-change", this.falseValue);
         }
       }
     },
@@ -143,11 +143,14 @@ label.hw-checkbox {
   line-height: 20px;
   display: inline-block;
 }
+
 .hw-checkbox>input {
   display: none;
   transition-duration: 300ms;
 }
+
 .hw-checkbox>input+span {
+  user-select: none;
   transition-duration: 300ms;
   position: relative;
   display: inline-block;
@@ -161,11 +164,13 @@ label.hw-checkbox {
   border: 1px solid #ddd;
   border-radius: 3px;
 }
+
 .hw-checkbox>input:checked+span {
   color: white;
   background-color: #58c1f7;
   border: 1px solid white;
 }
+
 .hw-checkbox>input+span::before {
   content: '';
   width: 12px;
@@ -179,10 +184,12 @@ label.hw-checkbox {
   margin-right: 4px;
   left: 4px;
 }
+
 .hw-checkbox>input:checked+span::before {
   background-color: white;
   border: 1px solid white;
 }
+
 .hw-checkbox>input+span::after {
   transition-duration: 300ms;
   position: absolute;
@@ -200,6 +207,7 @@ label.hw-checkbox {
   display: block;
   opacity: 0;
 }
+
 .hw-checkbox>input:checked+span::after {
   opacity: 1;
 }
