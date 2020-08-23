@@ -12,6 +12,12 @@ export const componentsConfig = [
     component: () => import("../views/form/HWCheckboxDemo.vue")
   },
   {
+    name: "LoadingDemo",
+    group: "layout",
+    path: "/layout/HWLoadingDemo",
+    component: () => import("../views/general/HWLoadingDemo.vue")
+  },
+  {
     name: "ButtonDemo",
     group: "layout",
     path: "/layout/HWButtonDemo",

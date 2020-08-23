@@ -47,6 +47,14 @@ export default {
       type: String,
       default: "children",
     },
+    select: {
+      type: Boolean,
+      default: false,
+    },
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {

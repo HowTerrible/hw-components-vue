@@ -1,11 +1,14 @@
 <template>
   <div>
-    <hw-tree :data="treeData[1]" textKey="name"></hw-tree>
+    <hw-card title="Normal Tree">
+      <hw-tree :data="treeData[1]" textKey="name"></hw-tree>
+    </hw-card>
   </div>
 </template>
 
 <script>
 import Tree from "@components/data/Tree";
+import Card from "@components/layout/Card";
 
 const treeData = {
   1: [
@@ -33,6 +36,7 @@ const treeData = {
 export default {
   name: "hw-tree-demo",
   components: {
+    "hw-card": Card,
     "hw-tree": Tree,
   },
   data() {

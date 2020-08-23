@@ -77,9 +77,7 @@ export default {
       return result;
     },
     flowStyle() {
-      let result = {
-        "z-index": this.zIndex,
-      };
+      let result = {};
       const localOpen = this.localOpen;
       localOpen
         ? (result["max-height"] = result["height"] =
@@ -90,6 +88,8 @@ export default {
         : (result["max-height"] = result["height"] = this.solidStyle["height"]);
 
       result[`padding-${this.collapseBtnPosition}`] = this.btnStyle.width;
+
+      result["z-index"] = localOpen ? this.zIndex : 0;
       return result;
     },
     btnStyle() {
