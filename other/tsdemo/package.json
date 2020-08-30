@@ -1,0 +1,12 @@
+{
+  "name": "tsdemo",
+  "version": "1.0.0",
+  "description": "Practice for typescript",
+  "main": "index.ts",
+  "author": "HowTerrible",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "typescript": "^4.0.2"
+  }
+}
