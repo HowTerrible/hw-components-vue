@@ -4,7 +4,7 @@
       class="questionnaire-anchor"
       @click="$emit('click', {item, index})"
       v-for="(item, index) in items"
-      :key="item.key"
+      :key="item.id"
     >{{item[textKey]}}</li>
   </ul>
 </template>
@@ -19,7 +19,7 @@ export default {
     },
     textKey: {
       type: String,
-      default: "name",
+      default: "text",
     },
     selectedItem: {
       type: Object,

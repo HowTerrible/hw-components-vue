@@ -1,10 +1,17 @@
 <template>
   <div class="questionnaire-base">
     <div class="questionnaire-content">
-      <div class="questionnaire-title">{{title}}</div>
+      <h2 class="questionnaire-title">{{title}}</h2>
       <transition>
         <keep-alive>
-          <questionnaire-item></questionnaire-item>
+          <template v-for="item in items">
+            <questionnaire-item
+              v-model="item.value"
+              v-if="currentItem === item"
+              :key="item.id"
+              :item="item"
+            ></questionnaire-item>
+          </template>
         </keep-alive>
       </transition>
     </div>
@@ -52,6 +59,9 @@ export default {
   width: 100%;
 }
 
+.questionnaire-title {
+}
+
 .questionnaire-content {
   float: left;
   width: 70%;
@@ -64,5 +74,6 @@ export default {
   right: 0;
   width: 30%;
   height: 100%;
+  padding: 0 10px;
 }
 </style>

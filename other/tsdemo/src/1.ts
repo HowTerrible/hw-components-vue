@@ -34,3 +34,5 @@ function greeting(name: string): void {
 function neverTest() : never{
   
 }
+
+

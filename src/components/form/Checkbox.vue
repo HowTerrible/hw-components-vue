@@ -2,7 +2,9 @@
   <label class="hw-checkbox">
     <input type="checkbox" v-model="checked" />
     <span>
-      <slot v-if="!hideText"></slot>
+      <span class="hw-checkbox-text" v-if="!hideText">
+        <slot>{{text}}</slot>
+      </span>
     </span>
   </label>
 </template>
@@ -21,7 +23,7 @@ export default {
       default: "normal",
       validator: (value) => ["small", "normal", "large"].indexOf(value != -1),
     },
-    title: {
+    text: {
       type: String,
       default: "",
     },
@@ -58,6 +60,7 @@ export default {
   data() {
     return {
       checked: false,
+      falseChangeFromValue: false,
     };
   },
   computed: {
@@ -79,8 +82,8 @@ export default {
     },
   },
   watch: {
-    value(newValue) {
-      this.onValueChanged(newValue);
+    value(newValue, oldValue) {
+      this.onValueChanged(newValue, oldValue);
     },
     checked(newValue) {
       this.$emit("checked", newValue, this.trueValue);
@@ -103,16 +106,24 @@ export default {
           targetIndex >= 0 ? this.value.splice(targetIndex, 1) : null;
           this.$emit("value-change", this.value);
         } else {
-          // this.$emit("value-change", this.falseValue);
+          console.log("check-changed");
+          this.falseChangeFromValue
+            ? null
+            : this.$emit("value-change", this.falseValue);
         }
       }
+      this.falseChangeFromValue = false;
     },
   },
   created() {
+    this.falseChangeFromValue = false; // 单选复选框用标识符，用于标记value-changed带来的checked=false操作，以便决定何时触发falseValue
     this.onValueChanged(this.value);
   },
+  mounted() {
+    this.falseChangeFromValue = false;
+  },
   methods: {
-    onValueChanged(newValue) {
+    onValueChanged(newValue, oldValue) {
       // 当值改变时，需要判断truevalue在不在value数组
       if (this.isDataArray) {
         let selectedItem = newValue.find((item) => {
@@ -127,7 +138,9 @@ export default {
       // 当值改变时，需要判断truevalue等不等于value
       else {
         this.checked = this.trueValue == newValue;
+        console.log("value-changed");
       }
+      this.falseChangeFromValue = true;
     },
     onDBclick() {
       this.$emit("dbclick", this);
@@ -186,7 +199,6 @@ label.hw-checkbox {
   display: block;
   float: left;
   margin-top: 3px;
-  margin-right: 4px;
   left: 4px;
 }
 
@@ -215,5 +227,9 @@ label.hw-checkbox {
 
 .hw-checkbox>input:checked+span::after {
   opacity: 1;
+}
+
+.hw-checkbox-text {
+  margin-left: 4px;
 }
 </style> 
