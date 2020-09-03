@@ -11,10 +11,10 @@ Vue.use(message)
 Vue.config.productionTip = false
 
 Vue.prototype.$dispatch = function (eventName, value) {
-  let parent = this.$parent;
-  while (parent) {
-    parent.$emit(eventName, value);
-    parent = parent.$parent
+  let target = this;
+  while (target) {
+    target.$emit(eventName, value);
+    target = target.$parent
   }
 }
 Vue.prototype.$broadcast = function (eventName, value) {

@@ -1,10 +1,20 @@
-export const componentsConfig = [
+const integratedComponents = [
+  {
+    name: "Questionnaire",
+    path: "/integrated/HWQuestionnaireDemo",
+    group: "integrated",
+    component: () => import("../views/integrated/HWQuestionnaireDemo")
+  }
+]
+const dataComponents = [
   {
     name: "TreeDemo",
     path: "/data/HWTreeDemo",
     group: "data",
     component: () => import("../views/data/HWTreeDemo.vue")
   },
+]
+const layoutComponents = [
   {
     name: "CheckboxDemo",
     group: "layout",
@@ -24,12 +34,6 @@ export const componentsConfig = [
     component: () => import("../views/general/HWButtonDemo.vue")
   },
   {
-    name: "TipsButtonDemo",
-    group: "general",
-    path: "/general/HWTipsButtonDemo",
-    component: () => import("../views/general/HWTipsButtonDemo.vue")
-  },
-  {
     name: "PanelDemo",
     group: "layout",
     path: "/layout/HWPanelDemo",
@@ -46,7 +50,22 @@ export const componentsConfig = [
     group: "layout",
     path: "/layout/HWCardDemo",
     component: () => import("../views/layout/HWCardDemo.vue")
-  }
+  },
+]
+const generalComponents = [
+  {
+    name: "TipsButtonDemo",
+    group: "general",
+    path: "/general/HWTipsButtonDemo",
+    component: () => import("../views/general/HWTipsButtonDemo.vue")
+  },
+]
+
+export const componentsConfig = [
+  ...dataComponents,
+  ...layoutComponents,
+  ...generalComponents,
+  ...integratedComponents
 ]
 
 export default {}

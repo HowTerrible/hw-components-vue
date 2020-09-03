@@ -4,10 +4,12 @@
       <template v-for="item in data">
         <hw-tree-item
           :key="item[idKey]"
+          @select="onTreeItemSelected"
           :data="item"
           :textKey="textKey"
           :idKey="idKey"
           :childrenKey="childrenKey"
+          v-bind="$attrs"
         ></hw-tree-item>
       </template>
     </ul>
@@ -17,6 +19,7 @@
 <script>
 import TreeItem from "./TreeItem";
 export default {
+  inheritAttrs: false,
   name: "hw-tree",
   components: {
     "hw-tree-item": TreeItem,
@@ -37,6 +40,33 @@ export default {
     childrenKey: {
       type: String,
       default: "children",
+    },
+    selectedItem: {},
+    multiply: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  model: {
+    prop: "selectedItem",
+    event: "item-selected",
+  },
+  data() {
+    return {
+      localSelected: this.selectedItem,
+    };
+  },
+  watch: {
+    selectedItem(newValue) {
+      this.localSelected = newValue;
+    },
+    localSelected(newValue) {
+      this.$emit("item-selected", newValue);
+    },
+  },
+  methods: {
+    onTreeItemSelected(item) {
+      this.localSelected = item;
     },
   },
 };

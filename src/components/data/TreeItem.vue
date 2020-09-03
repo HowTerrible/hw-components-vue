@@ -1,16 +1,17 @@
 <template>
-  <li class="hw-tree-item-base">
+  <li class="hw-tree-item-base" :class="classes">
     <hw-arrow
       v-if="hasChildren"
       :direction="expand?'down':'right'"
       @click="()=>{expand=!expand}"
       class="hw-tree-item-arrow"
     ></hw-arrow>
-    <span class="hw-item-text">{{data[textKey]}}</span>
+    <span class="hw-item-text" @click="onTextClicked">{{data[textKey]}}</span>
     <ul v-if="hasChildren" class="hw-tree-item-children" :style="itemChildrenStyle">
       <template v-for="item in data[childrenKey]">
         <transition :key="item[idKey]" name="hw-tree-item">
           <hw-tree-item
+            :clickTextToExpand="clickTextToExpand"
             v-if="expand"
             :key="item[idKey]"
             :data="item"
@@ -35,6 +36,14 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    select: {
+      type: Boolean,
+      default: false,
+    },
+    selectedItem:{
+      type: Boolean,
+      defalut: null
+    },
     idKey: {
       type: String,
       default: "id",
@@ -47,11 +56,11 @@ export default {
       type: String,
       default: "children",
     },
-    select: {
+    clickTextToExpand: {
       type: Boolean,
       default: false,
     },
-    multiple: {
+    multiply: {
       type: Boolean,
       default: false,
     },
@@ -59,6 +68,7 @@ export default {
   data() {
     return {
       checked: false,
+      localSelected: false,
       expand: false,
       itemChildrenStyle: {},
     };
@@ -68,16 +78,34 @@ export default {
       let children = this.data[this.childrenKey];
       return children && Array.isArray(children) && children.length > 0;
     },
+    classes() {
+      let result = [];
+      this.localSelected ? result.push("selected") : null;
+      return result;
+    },
   },
   watch: {
     expand(newValue) {
       this.$dispatch("", newValue, this.data);
       this.changeChildrenStyle();
     },
+    localSelected(newVal) {
+      if (newVal) {
+        this.$dispatch("select", this.data);
+      }
+    },
   },
   methods: {
     changeChildrenStyle() {
       let style = this.itemChildrenStyle;
+    },
+    onTextClicked() {
+      if (!this.localSelected) {
+        this.localSelected = true;
+      }
+      if (this.clickTextToExpand) {
+        this.expand = !this.expand;
+      }
     },
   },
 };
@@ -90,6 +118,7 @@ export default {
   list-style: none;
   transition-duration: 300ms;
   transition-timing-function: ease-in-out;
+  cursor: pointer;
 }
 
 .hw-tree-item-arrow {
@@ -98,7 +127,17 @@ export default {
   left: 0;
 }
 
+.hw-tree-item-arrow:hover {
+  opacity: 0.6;
+}
+
+.hw-tree-item-base.selected > .hw-item-text {
+  background-color: $backcolor-blue-select;
+}
+
 .hw-item-text {
+  cursor: pointer;
+  padding: 0 4px;
   height: 20px;
   line-height: 20px;
   display: inline-block;

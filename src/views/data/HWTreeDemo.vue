@@ -1,7 +1,19 @@
 <template>
   <div>
-    <hw-card title="Normal Tree">
+    <hw-card title="Normal Tree" v-if="false">
       <hw-tree :data="treeData[1]" textKey="name"></hw-tree>
+    </hw-card>
+    <hw-card title="Selected Tree Click Text To Expand">
+      <hw-tree
+        :data="treeData[1]"
+        v-model="selectedMulData"
+        @select="onItemSelected"
+        single
+        textKey="name"
+      ></hw-tree>
+    </hw-card>
+    <hw-card title="Selected Tree Click Text To Expand">
+      <hw-tree :data="treeData[1]" v-model="selectedMulData" textKey="name"></hw-tree>
     </hw-card>
   </div>
 </template>
@@ -25,6 +37,7 @@ const treeData = {
           children: [
             { name: "level-3-1", id: 31, key: "3-1" },
             { name: "level-3-2", id: 32, key: "3-2" },
+            { name: "level-3-3", id: 33, key: "3-3" },
           ],
         },
       ],
@@ -42,7 +55,13 @@ export default {
   data() {
     return {
       treeData: treeData,
+      selectedMulData: [],
     };
+  },
+  methods: {
+    onItemSelected() {
+      console.log("safasfdg")
+    },
   },
 };
 </script>

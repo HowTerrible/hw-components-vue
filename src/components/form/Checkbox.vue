@@ -2,7 +2,7 @@
   <label class="hw-checkbox">
     <input type="checkbox" v-model="checked" />
     <span>
-      <slot></slot>
+      <slot v-if="!hideText"></slot>
     </span>
   </label>
 </template>
@@ -39,6 +39,10 @@ export default {
       default: false,
     },
     readonly: {
+      type: Boolean,
+      default: false,
+    },
+    hideText: {
       type: Boolean,
       default: false,
     },
@@ -142,6 +146,7 @@ label.hw-checkbox {
   height: 24px;
   line-height: 20px;
   display: inline-block;
+  margin: 1px 2px;
 }
 
 .hw-checkbox>input {
@@ -194,16 +199,16 @@ label.hw-checkbox {
   transition-duration: 300ms;
   position: absolute;
   content: '';
-  width: 4px;
-  height: 6px;
+  width: 6px;
+  height: 10px;
   border: 3px solid #58c1f7;
   border-radius: 2px;
   border-top: none;
   border-left: none;
   transform: rotate(45deg);
   margin-top: 5px;
-  top: 2px;
-  left: 8px;
+  top: 0px;
+  left: 7px;
   display: block;
   opacity: 0;
 }
