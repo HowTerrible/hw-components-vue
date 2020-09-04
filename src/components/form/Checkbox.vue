@@ -60,7 +60,15 @@ export default {
   data() {
     return {
       checked: false,
-      checkChangedByClick: false,
+      /**
+       * 此项被 点击勾选，设置此值为true
+       * vmodel变化，出发valueChanged事件 进入onValueChanged
+       * 根据value变化，判断出此项被勾选，checed = true，触发checkChanged
+       * 因为check的newValue为true，走到了设值得代码段
+       * 需要及时将此标识符 恢复false。
+       * 否则点击另一个的时候，会有两个checkbox的此标识符为true
+       */
+      clickedItem: false,
     };
   },
   computed: {
@@ -89,6 +97,8 @@ export default {
       this.$emit("checked", newValue, this.trueValue);
       // 勾选
       if (newValue) {
+        // 需要在 勾选时 清掉此标识，否在在勾选 其他项目时会导致此项依然发送了falseValue
+        this.clickedItem = false;
         if (this.isDataArray) {
           // 如果是value数组，需要在选中时将trueValue添加进去
           this.value.findIndex((item) => item === this.trueValue) < 0
@@ -106,16 +116,14 @@ export default {
           targetIndex >= 0 ? this.value.splice(targetIndex, 1) : null;
           this.$emit("value-change", this.value);
         } else {
-          this.checkChangedByClick
-            ? this.$emit("value-change", this.falseValue)
-            : null;
+          // 如果不是当前点击项目也发出此事件
+          // 会导致vmodel绑定的所有checkbox都是falseValue的状态
+          this.clickedItem ? this.$emit("value-change", this.falseValue) : null;
         }
-        this.checkChangedByClick = false;
       }
     },
   },
   created() {
-    this.checkChangedByClick = false;
     this.onValueChanged(this.value);
   },
   mounted() {},
@@ -138,10 +146,7 @@ export default {
       }
     },
     onClick() {
-      // 此处 value还没有变成点击后的值
-      if (this.trueValue === this.value) {
-        this.checkChangedByClick = true;
-      }
+      this.clickedItem = true;
       this.$emit("click", this);
     },
   },
