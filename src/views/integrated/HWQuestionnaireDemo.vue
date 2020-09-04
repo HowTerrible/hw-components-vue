@@ -25,11 +25,11 @@ const config = {
       // 如果选项是字符串且 indexMappingToValue = true
       // 下标对应各个选项的值, 即 0,1,2,3,4
       // 如果是字符串且 indexMappingToValue = false，值就是文本内容
-      selections: ["问题1-1", "问题1-2", "问题1-3", "问题1-4", "问题1-5"],
+      selections: ["问题1-1", "问题1-2", "问题1-3 假设有个文本特别特别特别特别特别特别特别特别特别特别特别特别特别特别长的", "问题1-4", "问题1-5"],
     },
     {
       id: 2,
-      text: "2. 问卷问题2",
+      text: "2. 问卷问题2 问卷问题特别特别长",
       indexMappingToValue: true,
       selections: ["问题2-1", "问题2-2", "问题2-3", "问题2-4", "问题2-5"],
     },

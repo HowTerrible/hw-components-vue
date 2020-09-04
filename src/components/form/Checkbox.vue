@@ -158,7 +158,7 @@ label.hw-checkbox {
   cursor: pointer;
   transition-duration: 300ms;
   position: relative;
-  height: 24px;
+  min-height: 24px;
   line-height: 20px;
   display: inline-block;
   margin: 1px 2px;
@@ -176,13 +176,14 @@ label.hw-checkbox {
   display: inline-block;
   text-align: right;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   color: #444;
   background-color: white;
   padding: 2px 4px;
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 3px;
+  padding-left: 20px;
 }
 
 .hw-checkbox>input:checked+span {
@@ -202,6 +203,9 @@ label.hw-checkbox {
   float: left;
   margin-top: 3px;
   left: 4px;
+  position: absolute;
+  top: 50%;
+  margin-top: -6px;
 }
 
 .hw-checkbox>input:checked+span::before {
@@ -220,8 +224,8 @@ label.hw-checkbox {
   border-top: none;
   border-left: none;
   transform: rotate(45deg);
-  margin-top: 5px;
-  top: 0px;
+  margin-top: -6px;
+  top: 50%;
   left: 7px;
   display: block;
   opacity: 0;
@@ -232,6 +236,6 @@ label.hw-checkbox {
 }
 
 .hw-checkbox-text {
-  margin-left: 4px;
+  padding: 0 4px;
 }
 </style> 

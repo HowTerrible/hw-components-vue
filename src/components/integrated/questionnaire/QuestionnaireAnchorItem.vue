@@ -1,6 +1,6 @@
 <template>
   <li class="questionnaire-anchor" :class="itemClass" @click="$dispatch('click', {item, index})">
-    <span>{{item[textKey]}}</span>
+    <span class="questionnaire-anchor-text" :title="item[textKey]">{{item[textKey]}}</span>
     <span class="questionaire-anchor-result">{{value + localUnit}}</span>
   </li>
 </template>
@@ -52,6 +52,7 @@ export default {
 <style lang="stylus" scoped>
 .questionnaire-anchor {
   width: 100%;
+  height: 27px;
   list-style: none;
   cursor: pointer;
   padding: 2px 4px;
@@ -72,7 +73,18 @@ export default {
   box-shadow: $box-shadow;
 }
 
+.questionnaire-anchor-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  width: 80%;
+}
+
 .questionaire-anchor-result {
   float: right;
+  display: inline-block;
+  width: 20%;
 }
 </style>
