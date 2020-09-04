@@ -1,11 +1,11 @@
 <template>
   <div class="questionnaire-item-base">
     <h3 class="questionnaire-item-text">{{item.text}}</h3>
-    <ul class="questionnaire-item-selections">
+    <ul class="questionnaire-selections">
       <li
         v-for="selection in localSelections"
         :key="selection.text"
-        class="questionnaire-item-selection"
+        class="questionnaire-selection"
       >
         <hw-checkbox
           v-model="localValue"
@@ -47,7 +47,7 @@ export default {
       this.localValue = newValue;
     },
     localValue(newValue) {
-      this.$emit("value-change", newValue);
+      this.$emit("value-change", newValue, this.item);
     },
   },
   created() {
@@ -84,7 +84,12 @@ export default {
   margin: 10px;
 }
 
-.questionnaire-item-selection {
+.questionnaire-selections {
+  padding: 10px 10px;
+}
+
+.questionnaire-selection {
   list-style: none;
+  margin: 10px 0;
 }
 </style>

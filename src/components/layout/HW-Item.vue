@@ -3,7 +3,7 @@
     <div :class="titleClass" :title="title" :style="titleStyle">
       <slot name="title">{{title}}</slot>
     </div>
-    <div class="fi-content">
+    <div class="fi-content" :style="contentStyle">
       <slot></slot>
     </div>
   </div>
@@ -15,16 +15,25 @@ export default {
   props: {
     title: {
       type: String,
-      default: ""
+      default: "",
     },
     labelWidth: {
       type: [String, Number],
-      default: null
+      default: null,
+    },
+    contentWidth: {
+      type: [String, Number],
+      default: null,
     },
     titleLevel: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
+    textAlign: {
+      type: String,
+      default: "",
+      validator: (item) => ["", "left", "center", "right"].indexOf(item) >= 0,
+    },
   },
   computed: {
     titleStyle() {
@@ -45,8 +54,33 @@ export default {
         result += "level" + this.titleLevel;
       }
       return result;
-    }
-  }
+    },
+    contentStyle() {
+      let result = {};
+
+      switch (this.textAlign) {
+        case "left":
+          result.textAlign = "start";
+          break;
+        case "center":
+          result.textAlign = "center";
+          break;
+        case "right":
+          result.textAlign = "end";
+          break;
+      }
+
+      const contentWidth = this.contentWidth;
+      if (contentWidth) {
+        if (!isNaN(contentWidth)) {
+          result.width = contentWidth + "px";
+        } else {
+          result.width = contentWidth;
+        }
+      }
+      return result;
+    },
+  },
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <label class="hw-checkbox">
-    <input type="checkbox" v-model="checked" />
+    <input type="checkbox" v-model="checked" @click="onClick" />
     <span>
       <span class="hw-checkbox-text" v-if="!hideText">
         <slot>{{text}}</slot>
@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       checked: false,
-      falseChangeFromValue: false,
+      checkChangedByClick: false,
     };
   },
   computed: {
@@ -106,22 +106,19 @@ export default {
           targetIndex >= 0 ? this.value.splice(targetIndex, 1) : null;
           this.$emit("value-change", this.value);
         } else {
-          console.log("check-changed");
-          this.falseChangeFromValue
-            ? null
-            : this.$emit("value-change", this.falseValue);
+          this.checkChangedByClick
+            ? this.$emit("value-change", this.falseValue)
+            : null;
         }
+        this.checkChangedByClick = false;
       }
-      this.falseChangeFromValue = false;
     },
   },
   created() {
-    this.falseChangeFromValue = false; // 单选复选框用标识符，用于标记value-changed带来的checked=false操作，以便决定何时触发falseValue
+    this.checkChangedByClick = false;
     this.onValueChanged(this.value);
   },
-  mounted() {
-    this.falseChangeFromValue = false;
-  },
+  mounted() {},
   methods: {
     onValueChanged(newValue, oldValue) {
       // 当值改变时，需要判断truevalue在不在value数组
@@ -138,14 +135,13 @@ export default {
       // 当值改变时，需要判断truevalue等不等于value
       else {
         this.checked = this.trueValue == newValue;
-        console.log("value-changed");
       }
-      this.falseChangeFromValue = true;
-    },
-    onDBclick() {
-      this.$emit("dbclick", this);
     },
     onClick() {
+      // 此处 value还没有变成点击后的值
+      if (this.trueValue === this.value) {
+        this.checkChangedByClick = true;
+      }
       this.$emit("click", this);
     },
   },
@@ -154,6 +150,7 @@ export default {
 
 <style lang="stylus" scoped>
 label.hw-checkbox {
+  cursor: pointer;
   transition-duration: 300ms;
   position: relative;
   height: 24px;

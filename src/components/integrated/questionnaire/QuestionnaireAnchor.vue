@@ -1,17 +1,24 @@
 <template>
   <ul class="questionnaire-anchor-base">
-    <li
-      class="questionnaire-anchor"
-      @click="$emit('click', {item, index})"
+    <anchor-item
       v-for="(item, index) in items"
+      :textKey="textKey"
       :key="item.id"
-    >{{item[textKey]}}</li>
+      :unit="unit"
+      :item="item"
+      :index="index"
+      :selected="selectedItem === item"
+    ></anchor-item>
   </ul>
 </template>
 
 <script>
+import AnchorItem from "./QuestionnaireAnchorItem";
 export default {
   name: "questionnaire-anchor",
+  components: {
+    "anchor-item": AnchorItem,
+  },
   props: {
     items: {
       type: Array,
@@ -21,26 +28,17 @@ export default {
       type: String,
       default: "text",
     },
+    unit: {
+      type: String,
+      default: "",
+    },
     selectedItem: {
       type: Object,
       default: () => ({}),
     },
   },
+  computed: {},
 };
 </script>
 
-<style lang="stylus" scoped>
-.questionnaire-anchor {
-  list-style: none;
-  cursor: pointer;
-  padding: 2px 4px;
-  margin: 2px 0;
-  border-radius: $border-radius;
-  transition-duration: $transition-duration;
-  border: 1px solid $bordercolor-gray-light;
-}
-
-.questionnaire-anchor:hover {
-  box-shadow: $box-shadow;
-}
-</style>
+<style lang="stylus" scoped></style>
