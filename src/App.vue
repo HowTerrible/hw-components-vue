@@ -1,22 +1,22 @@
 <template>
   <div class="home">
-    <!-- <div class="btnDiv">
-      <hw-tipsbtn>dsadf</hw-tipsbtn>
-      <hw-tipsbtn :tips="tips1">dsadf</hw-tipsbtn>
-      <hw-tipsbtn :tips="tips2">dsadf</hw-tipsbtn>
-      <hw-button @click="openBing = true">打开必应</hw-button>
+    <div class="center">
+      <div class="inner">
+        <div class="display-area">
+          <router-view></router-view>
+        </div>
+      </div>
     </div>
-    <hw-iframe-dialog v-model="openBing" url="https://cn.bing.com/"></hw-iframe-dialog>
-        <p>水能喝是怎么回事呢？水相信大家都很熟悉，但是水能喝是怎么回事呢，下面就让小编带大家一起了解吧。</p>
-        <p>水能喝，其实就是可以喝，大家可能会很惊讶水怎么会能喝呢？但事实就是这样，小编也感到非常惊讶。</p>
-    <p>这就是关于水能喝的事情了，大家有什么想法呢，欢迎在评论区告诉小编一起讨论哦！</p>-->
-    <template v-for="config in componentsConfig">
-      <!-- <hw-button @click="()=>onComponentClick(config)" :key="config.name">{{config.name}}</hw-button> -->
-      <router-link :to="config.path" :key="config.name">{{config.name}}</router-link>
-    </template>
-    <div class="display-area">
-      <router-view></router-view>
+    <div class="left">
+      <ul>
+        <template v-for="config in componentsConfig">
+          <li :key="config.name">
+            <router-link :to="config.path">{{config.name}}</router-link>
+          </li>
+        </template>
+      </ul>
     </div>
+    <div class="right"></div>
   </div>
 </template>
 <script>
@@ -55,7 +55,27 @@ export default {
   overflow: hidden;
 
   >* {
-    margin-right: 10px;
+    height: 100%;
+    float: left;
+  }
+
+  .center {
+    width: 100%;
+  }
+
+  .inner {
+    height: 100%;
+    margin: 0 300px 0 300px;
+  }
+
+  .left {
+    width: 300px;
+    margin-left: -100%;
+  }
+
+  .right {
+    width: 300px;
+    margin-left: -300px;
   }
 }
 

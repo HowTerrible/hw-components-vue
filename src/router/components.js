@@ -61,11 +61,21 @@ const generalComponents = [
   },
 ]
 
+const otherDemo = [
+  {
+    name: "DynamicComponent",
+    group: "other",
+    path: "/other/DynamicComponent",
+    component: () => import("../views/other/DynamicComponent.vue")
+  },
+]
+
 export const componentsConfig = [
   ...dataComponents,
   ...layoutComponents,
   ...generalComponents,
-  ...integratedComponents
+  ...integratedComponents,
+  ...otherDemo
 ]
 
 export default {}
