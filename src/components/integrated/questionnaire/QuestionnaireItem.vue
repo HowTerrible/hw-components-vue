@@ -12,7 +12,9 @@
           :true-value="selection.value"
           :false-value="null"
           :text="selection.text"
+          allow-wrap
         ></hw-checkbox>
+        <span class="selection-score">{{selection.value}} {{unit}}</span>
       </li>
     </ul>
   </div>
@@ -29,6 +31,10 @@ export default {
     item: {
       type: Object,
       default: () => ({}),
+    },
+    unit: {
+      type: String,
+      default: "",
     },
     value: {},
   },
@@ -81,15 +87,45 @@ export default {
 
 <style lang="stylus" scoped>
 .questionnaire-item-base {
+  position: relative;
   margin: 10px;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  padding-top: 24px;
+}
+
+.questionnaire-item-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .questionnaire-selections {
   padding: 10px 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
 }
 
 .questionnaire-selection {
   list-style: none;
   margin: 10px 0;
+  width: 100%;
+  white-space: nowrap;
+  padding-right: 40px;
+
+  >*:nth-child(1) {
+    width: 100%;
+  }
+
+  .selection-score {
+    user-select: none;
+    width: 40px;
+    text-align: end;
+    display: inline-block;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <label class="hw-checkbox">
+  <label class="hw-checkbox" :class="localClass" :style="checkboxStyle">
     <input type="checkbox" v-model="checked" @click="onClick" />
     <span>
       <span class="hw-checkbox-text" v-if="!hideText">
@@ -13,11 +13,6 @@
 export default {
   name: "hw-checkbox",
   props: {
-    type: {
-      type: String,
-      default: "default",
-      validator: (value) => ["default", "button"].indexOf(value) != -1,
-    },
     size: {
       type: String,
       default: "normal",
@@ -52,6 +47,10 @@ export default {
       type: String,
       default: "",
     },
+    allowWrap: {
+      type: Boolean,
+      default: false,
+    },
   },
   model: {
     prop: "value",
@@ -75,17 +74,15 @@ export default {
     isDataArray() {
       return Array.isArray(this.value);
     },
-    localClassStyle() {
-      let result;
-      if (this.type === "button") {
-        result = "xx-checkbox-btn-label ";
-      } else {
-        result = "";
-      }
-      if (this.readonly) {
-        result += "readonly";
-      }
-      result = result + this.classStyle + " " + this.size;
+    localClass() {
+      let result = [this.size];
+
+      this.readonly ? result.push("readonly") : null;
+      result.push(this.allowWrap ? "allow-wrap" : "nowrap");
+      return result;
+    },
+    checkboxStyle() {
+      let result = {};
       return result;
     },
   },
@@ -174,7 +171,6 @@ label.hw-checkbox {
   transition-duration: 300ms;
   position: relative;
   display: inline-block;
-  text-align: right;
   width: 100%;
   min-height: 100%;
   color: #444;
@@ -235,7 +231,27 @@ label.hw-checkbox {
   opacity: 1;
 }
 
+.hw-checkbox.allow-wrap {
+  white-space: normal;
+}
+
+.hw-checkbox.nowrap {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.hw-checkbox.nowrap .hw-checkbox-text {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+
 .hw-checkbox-text {
   padding: 0 4px;
+  text-align: start;
 }
 </style> 

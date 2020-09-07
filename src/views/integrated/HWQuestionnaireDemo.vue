@@ -1,5 +1,5 @@
 <template>
-  <hw-card title="标准问卷" style="width:400px">
+  <hw-card title="标准问卷" style="width:600px">
     <questionnaire
       class="questionnaire-demo"
       :title="config.name"
@@ -25,7 +25,13 @@ const config = {
       // 如果选项是字符串且 indexMappingToValue = true
       // 下标对应各个选项的值, 即 0,1,2,3,4
       // 如果是字符串且 indexMappingToValue = false，值就是文本内容
-      selections: ["问题1-1", "问题1-2", "问题1-3 假设有个文本特别特别特别特别特别特别特别特别特别特别特别特别特别特别长的", "问题1-4", "问题1-5"],
+      selections: [
+        "问题1-1",
+        "问题1-2 特长特长特长特长特长特长特长特长特长特长特长",
+        "问题1-3 假设有个文本特别特别特别特别特别特别特别特别特别特别特别特别特别特别长的",
+        "问题1-4",
+        "问题1-5",
+      ],
     },
     {
       id: 2,
@@ -60,6 +66,6 @@ export default {
 
 <style lang="stylus" scoped>
 .questionnaire-demo {
-  height: 400px;
+  height: 600px;
 }
 </style>

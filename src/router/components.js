@@ -51,6 +51,12 @@ const layoutComponents = [
     path: "/layout/HWCardDemo",
     component: () => import("../views/layout/HWCardDemo.vue")
   },
+  {
+    name: "DraggableContainer",
+    group: "layout",
+    path: "/layout/HWDraggableContainerDemo",
+    component: () => import("../views/layout/HWDraggableContainerDemo.vue")
+  },
 ]
 const generalComponents = [
   {
@@ -66,7 +72,7 @@ const otherDemo = [
     name: "DynamicComponent",
     group: "other",
     path: "/other/DynamicComponent",
-    component: () => import("../views/other/DynamicComponent.vue")
+    component: () => import("../views/other/DynamicComponentDemo.vue")
   },
 ]
 

@@ -1,37 +1,34 @@
 <template>
   <div class="questionnaire-base" ref="questionnaire-base">
-    <div class="questionnaire-content" :style="questionnaireStyle">
+    <div class="questionnaire-main" :style="questionnaireStyle">
       <h2 class="questionnaire-title">{{title}}</h2>
-      <!-- <transition> -->
-      <keep-alive>
-        <template v-for="item in items">
-          <questionnaire-item
-            @value-change="onValueChanged"
-            v-model="item.value"
-            v-if="currentItem === item"
-            :key="item.id"
-            :item="item"
-          ></questionnaire-item>
-        </template>
-      </keep-alive>
-      <!-- </transition> -->
-      <div class="questionnaire-nav">
-        <keep-alive>
-          <hw-button
-            size="small"
-            class="prev"
-            @click="currentIndex-- "
-            v-if="currentIndex>0"
-          >{{preText}}</hw-button>
-        </keep-alive>
-        <keep-alive>
-          <hw-button
-            size="small"
-            class="next"
-            @click="currentIndex++"
-            v-if="currentIndex<(items.length-1)"
-          >{{nextText}}</hw-button>
-        </keep-alive>
+      <div class="questionnaire-content">
+        <div class="questionnaire-inner">
+          <!-- <transition> -->
+          <keep-alive>
+            <template v-for="item in items">
+              <questionnaire-item
+                @value-change="onValueChanged"
+                v-model="item.value"
+                v-if="currentItem === item"
+                :key="item.id"
+                :unit="unit"
+                :item="item"
+              ></questionnaire-item>
+            </template>
+          </keep-alive>
+          <!-- </transition> -->
+        </div>
+      </div>
+      <div class="questionnaire-nav prev" @click="currentIndex-- " v-show="currentIndex>0">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+      </div>
+      <div
+        class="questionnaire-nav next"
+        @click="currentIndex++"
+        v-show="currentIndex<(items.length-1)"
+      >
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
       </div>
     </div>
     <div class="questionnaire-anchor" :style="anchorStyle">
@@ -56,6 +53,7 @@
 
 <script>
 import Button from "@components/general/Button";
+import Arrow from "@components/general/Arrow";
 import Item from "@components/layout/HW-Item";
 import QuestionnaireItem from "./QuestionnaireItem";
 import QuestionnaireAnchor from "./QuestionnaireAnchor";
@@ -63,7 +61,6 @@ export default {
   name: "questionnaire",
   components: {
     "hw-item": Item,
-    "hw-button": Button,
     "questionnaire-item": QuestionnaireItem,
     "questionnaire-anchor": QuestionnaireAnchor,
   },
@@ -93,14 +90,6 @@ export default {
     totalText: {
       type: String,
       default: "总分",
-    },
-    preText: {
-      type: String,
-      default: "上一个",
-    },
-    nextText: {
-      type: String,
-      default: "下一个",
     },
   },
   data() {
@@ -158,30 +147,90 @@ export default {
 
 <style lang="stylus" scoped>
 .questionnaire-base {
-  height: 100%;
+  position: relative;
   width: 100%;
+  overflow: hidden;
+}
+
+.questionnaire-main {
+  position: relative;
+  float: left;
+  height: 100%;
+  overflow: hidden;
+  padding-top: 30px;
+  padding-bottom: 60px;
 }
 
 .questionnaire-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .questionnaire-content {
+  width: 100%;
   float: left;
-  height: 100%;
+
+  .questionnaire-inner {
+    padding: 0 30px;
+  }
 }
 
 .questionnaire-nav {
-  padding: 0 10px 0 0;
+  transition-duration: $transition-duration;
+  position: relative;
+  float: left;
+  width: 30px;
+  height: 100%;
+  user-select: none;
+  cursor: pointer;
+  opacity: 0.6;
 
-  .prev {
-    float: left;
-  }
-
-  .next {
-    float: right;
+  >* {
+    font-size: 16x;
+    position: absolute;
+    top: 50%;
+    left: 40%;
   }
 }
 
+.questionnaire-nav:hover {
+  opacity: 1;
+
+  >* {
+    color: $color-blue;
+  }
+}
+
+.questionnaire-nav.prev {
+  margin-left: -100%;
+  border-left: 1px solid $bordercolor-gray-light;
+  background: linear-gradient(to right, rgba($backcolor-gray, 0.3), rgba(0, 0, 0, 0));
+}
+
+.questionnaire-nav.next {
+  margin-left: -30px;
+  border-right: 1px solid $bordercolor-gray-light;
+  background: linear-gradient(to left, rgba($backcolor-gray, 0.3), rgba(0, 0, 0, 0));
+}
+
+// .questionnaire-nav {
+// bottom: 0px;
+// left: 0;
+// right: 0;
+// height: 28px;
+// margin: 2px 0;
+// padding: 2px 10px 0 0;
+
+// .prev {
+// float: left;
+// }
+
+// .next {
+// float: right;
+// }
+// }
 .questionnaire-anchor {
   position: relative;
   float: right;
@@ -195,6 +244,7 @@ export default {
 
 .questionnaire-total {
   position: absolute;
+  user-select: none;
   bottom: 0;
 }
 </style>
