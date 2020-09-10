@@ -65,6 +65,12 @@ const generalComponents = [
     path: "/general/HWTipsButtonDemo",
     component: () => import("../views/general/HWTipsButtonDemo.vue")
   },
+  {
+    name: "Echart",
+    group: "general",
+    path: "/general/HWEchartDemo",
+    component: () => import("../views/general/HWEchartDemo.vue")
+  },
 ]
 
 const otherDemo = [

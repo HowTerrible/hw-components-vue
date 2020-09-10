@@ -1,23 +1,25 @@
 <template>
-  <div class="questionnaire-base" ref="questionnaire-base">
+  <div class="questionnaire-base" ref="questionnaire-base" :style="baseStyle">
     <div class="questionnaire-main" :style="questionnaireStyle">
       <h2 class="questionnaire-title">{{title}}</h2>
       <div class="questionnaire-content">
         <div class="questionnaire-inner">
-          <!-- <transition> -->
-          <keep-alive>
-            <template v-for="item in items">
-              <questionnaire-item
-                @value-change="onValueChanged"
-                v-model="item.value"
-                v-if="currentItem === item"
-                :key="item.id"
-                :unit="unit"
-                :item="item"
-              ></questionnaire-item>
-            </template>
-          </keep-alive>
-          <!-- </transition> -->
+          <transition name="questionnaire-item">
+            <keep-alive>
+              <template v-for="item in items">
+                <questionnaire-item
+                  @value-change="onValueChanged"
+                  v-model="item.value"
+                  v-if="currentItem === item"
+                  :key="item.id"
+                  :unit="unit"
+                  :item="item"
+                  :textKey="textKey"
+                  :valueKey="valueKey"
+                ></questionnaire-item>
+              </template>
+            </keep-alive>
+          </transition>
         </div>
       </div>
       <div class="questionnaire-nav prev" @click="currentIndex-- " v-show="currentIndex>0">
@@ -48,12 +50,27 @@
         >{{total}} {{unit}}</hw-item>
       </div>
     </div>
+    <div
+      class="questionnaire-description"
+      v-if="description"
+      :style="{height:descriptionHeight + 'px'}"
+    >
+      <questionnaire-description v-if="typeof description === 'function'" :render="description"></questionnaire-description>
+      <pre v-else>
+{{descriptionTitle}}
+{{description}}</pre>
+    </div>
+    <div class="questionnaire-btndiv">
+      <slot name="footer">
+        <hw-button style="float:right; margin-right:10px" type="error" @click="onClose">关闭</hw-button>
+        <hw-button style="float:right; margin-right:10px" type="primary" @click="onSave">保存</hw-button>
+      </slot>
+    </div>
   </div>
 </template>
 
 <script>
 import Button from "@components/general/Button";
-import Arrow from "@components/general/Arrow";
 import Item from "@components/layout/HW-Item";
 import QuestionnaireItem from "./QuestionnaireItem";
 import QuestionnaireAnchor from "./QuestionnaireAnchor";
@@ -61,14 +78,20 @@ export default {
   name: "questionnaire",
   components: {
     "hw-item": Item,
+    "hw-button": Button,
     "questionnaire-item": QuestionnaireItem,
     "questionnaire-anchor": QuestionnaireAnchor,
+    "questionnaire-description": () => import("./QuestionnaireDescription"),
   },
   props: {
     title: {
       type: String,
       default: "",
       require: true,
+    },
+    description: {
+      type: String,
+      default: "",
     },
     items: {
       type: Array,
@@ -78,6 +101,14 @@ export default {
     unit: {
       type: String,
       default: "",
+    },
+    descriptionTitle: {
+      type: String,
+      default: "说明：",
+    },
+    descriptionHeight: {
+      type: Number,
+      default: 150,
     },
     anchorWidth: {
       type: Number,
@@ -91,6 +122,14 @@ export default {
       type: String,
       default: "总分",
     },
+    textKey: {
+      type: String,
+      default: "text",
+    },
+    valueKey: {
+      type: String,
+      default: "value",
+    },
   },
   data() {
     return {
@@ -99,6 +138,7 @@ export default {
       questionnaireStyle: { width: "auto" },
       localValue: {},
       total: null,
+      animationDirection: "",
     };
   },
   computed: {
@@ -107,11 +147,26 @@ export default {
       result.width = this.anchorWidth + "px";
       return result;
     },
+    baseStyle() {
+      const defaultPaddingBottom = 46;
+      let result = {};
+      result.paddingBottom = this.description
+        ? this.descriptionHeight + defaultPaddingBottom + "px"
+        : defaultPaddingBottom + "px";
+      return result;
+    },
   },
   watch: {
     localValue(newValue) {},
-    currentIndex(newValue) {
+    currentIndex(newValue, oldValue) {
       this.currentItem = this.items[newValue];
+      // 用于计算动画的方向
+      this.animationDirection =
+        oldValue === undefined || oldValue === null
+          ? "right"
+          : newValue - oldValue > 0
+          ? "right"
+          : "left";
     },
   },
   created() {},
@@ -141,6 +196,12 @@ export default {
         isNaN(firstItem) ? 0 : firstItem
       );
     },
+    onSave() {
+      this.$emit("save", this.items, this.total);
+    },
+    onClose() {
+      this.$emit("close");
+    },
   },
 };
 </script>
@@ -149,6 +210,7 @@ export default {
 .questionnaire-base {
   position: relative;
   width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -157,23 +219,28 @@ export default {
   float: left;
   height: 100%;
   overflow: hidden;
-  padding-top: 30px;
-  padding-bottom: 60px;
+  padding-top: 34px;
 }
 
 .questionnaire-title {
   position: absolute;
+  background-color: $backcolor-white;
   top: 0;
   left: 0;
   right: 0;
 }
 
 .questionnaire-content {
+  position: relative;
   width: 100%;
+  height: 100%;
+  overflow: hidden;
   float: left;
 
   .questionnaire-inner {
-    padding: 0 30px;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
   }
 }
 
@@ -215,22 +282,6 @@ export default {
   background: linear-gradient(to left, rgba($backcolor-gray, 0.3), rgba(0, 0, 0, 0));
 }
 
-// .questionnaire-nav {
-// bottom: 0px;
-// left: 0;
-// right: 0;
-// height: 28px;
-// margin: 2px 0;
-// padding: 2px 10px 0 0;
-
-// .prev {
-// float: left;
-// }
-
-// .next {
-// float: right;
-// }
-// }
 .questionnaire-anchor {
   position: relative;
   float: right;
@@ -238,13 +289,30 @@ export default {
   right: 0;
   width: 30%;
   height: 100%;
-  padding: 0 0 0 10px;
+  padding: 0 0 40px 10px;
   border-left: 1px solid $bordercolor-gray-light;
+  overflow: hidden;
 }
 
 .questionnaire-total {
   position: absolute;
   user-select: none;
+  bottom: 4px;
+}
+
+.questionnaire-btndiv {
+  position: absolute;
   bottom: 0;
+  height: 40px;
+  width: 100%;
+}
+
+.questionnaire-description {
+  width: 100%;
+  float: left;
+  padding: 10px 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-all;
 }
 </style>

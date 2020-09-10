@@ -1,15 +1,10 @@
 <template>
   <grid-layout v-bind="$attrs" v-on="$listeners" :layout.sync="items">
     <template v-for="item in items">
-      <draggable-item
-        is="GridItem"
-        :x="item.x"
-        :y="item.y"
-        :w="item.w"
-        :h="item.h"
-        :i="item.i"
-        :key="item.i"
-      >{{item.i}}</draggable-item>
+      <grid-item v-bind="item" :key="item.i">
+        <draggable-item :component="item.component">
+        </draggable-item>
+      </grid-item>
     </template>
   </grid-layout>
 </template>
@@ -35,9 +30,11 @@ import VueGridLayout from "vue-grid-layout";
     @layout-updated="layoutUpdatedEvent"
  */
 export default {
+  inheritAttrs: false,
   name: "hw-draggable-container",
   components: {
     GridLayout: VueGridLayout.GridLayout,
+    GridItem: VueGridLayout.GridItem,
     "draggable-item": DraggableItem,
   },
   props: {

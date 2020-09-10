@@ -1,6 +1,6 @@
 <template>
   <li class="questionnaire-anchor" :class="itemClass" @click="$dispatch('click', {item, index})">
-    <span class="questionnaire-anchor-text" :title="item[textKey]">{{item[textKey]}}</span>
+    <span class="questionnaire-anchor-text" :title="item[titleKey]">{{item[titleKey]}}</span>
     <span class="questionaire-anchor-result">{{value + localUnit}}</span>
   </li>
 </template>
@@ -16,9 +16,9 @@ export default {
     index: {
       type: Number,
     },
-    textKey: {
+    titleKey: {
       type: String,
-      default: "text",
+      default: "title",
     },
     unit: {
       type: String,

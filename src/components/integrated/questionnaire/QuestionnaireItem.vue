@@ -1,6 +1,6 @@
 <template>
   <div class="questionnaire-item-base">
-    <h3 class="questionnaire-item-text">{{item.text}}</h3>
+    <h3 class="questionnaire-item-title">{{item.title}}</h3>
     <ul class="questionnaire-selections">
       <li
         v-for="selection in localSelections"
@@ -28,15 +28,46 @@ export default {
     "hw-checkbox": Checkbox,
   },
   props: {
+    /**
+     * 问卷中得题目对象
+
+     *  {
+     *  id                  题目的id
+     *  title               题目的标题
+     *  indexMappingToValue 选项 的值是否来自下标。如果selections中的项目是【字符串】格式，会使用此变量判断，如果此值为true，选项选中的值就是他的下标，如果为false，选中项的值就是选项文本
+     *  selections          选项 可以是字符串，或者对象。对象的格式默认是{text, value}，也可以通过后面的textKey 和 valueKey两个属性更换取值的键
+     *  description         描述
+     *  }
+     */
     item: {
       type: Object,
       default: () => ({}),
     },
+    /**
+     * 选中结果后得得分单位
+     */
     unit: {
       type: String,
       default: "",
     },
+    /**
+     * 用于双向绑定选中的值
+     */
     value: {},
+    /**
+     * 如果问题得每个选项是对象格式，可以选配每个题目的【文本】对应的键
+     */
+    textKey: {
+      type: String,
+      default: "text",
+    },
+    /**
+     * 如果问题得每个选项是对象格式，可以选配每个题目的【值】对应的键
+     */
+    valueKey: {
+      type: String,
+      default: "value",
+    },
   },
   model: {
     prop: "value",
@@ -75,7 +106,10 @@ export default {
                   text: item,
                 };
           } else {
-            temp = item;
+            temp = {
+              text: item[this.textKey],
+              value: item[this.valueKey],
+            };
           }
           this.localSelections.push(temp);
         })
@@ -88,22 +122,23 @@ export default {
 <style lang="stylus" scoped>
 .questionnaire-item-base {
   position: relative;
-  margin: 10px;
+  padding: 30px;
+  padding-top: 24px;
   height: 100%;
   max-height: 100%;
   overflow: hidden;
-  padding-top: 24px;
 }
 
-.questionnaire-item-text {
+.questionnaire-item-title {
   position: absolute;
+  padding: 0 30px;
   top: 0;
   left: 0;
   right: 0;
 }
 
 .questionnaire-selections {
-  padding: 10px 10px;
+  padding: 0px 10px 10px;
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;

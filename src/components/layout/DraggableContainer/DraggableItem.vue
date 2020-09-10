@@ -1,50 +1,44 @@
 <template>
-  <grid-item
-    v-bind="$attrs"
-    v-on="$listeners"
-    @resize="resizeEvent"
-    @move="moveEvent"
-    @resized="resizedEvent"
-    @moved="movedEvent"
-  >{{data.i}}</grid-item>
+  <div class="draggable-item" @click="onItemClicked">
+    <darggable-component v-if="component" :component="component"></darggable-component>
+  </div>
 </template>
 
 <script>
-import VueGridLayout from "vue-grid-layout";
+import DarggableComponent from "./DraggableComponent";
 export default {
+  inheritAttrs: false,
   name: "hw-draggable-item",
   components: {
-    GridItem: VueGridLayout.GridItem,
+    "darggable-component": DarggableComponent,
   },
   props: {
     data: {
       default: null,
     },
+    component: {
+      type: [Function, Object],
+      default: null,
+    },
   },
+  created() {},
   methods: {
-    moveEvent: function (i, newX, newY) {
-      this.$emit("move", { i, newX, newY, data: this.data });
-    },
-
-    resizeEvent: function (i, newH, newW, newHPx, newWPx) {
-      this.$emit("resize", { i, newH, newW, newHPx, newWPx, data: this.data });
-    },
-
-    movedEvent: function (i, newX, newY) {
-      this.$emit("after-moved", { i, newX, newY, data: this.data });
-    },
-    resizedEvent: function (i, newH, newW, newHPx, newWPx) {
-      this.$emit("after-resized", {
-        i,
-        newH,
-        newW,
-        newHPx,
-        newWPx,
-        data: this.data,
-      });
+    onItemClicked() {
+      console.log("sgjaserikagh");
     },
   },
 };
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+.draggable-item {
+  height: 100%;
+  width: 100%;
+  border: 1px solid $bordercolor-gray-light;
+  box-shadow: $box-shadow-small;
+}
+
+.draggable-item:hover {
+  box-shadow: $box-shadow;
+}
+</style>
