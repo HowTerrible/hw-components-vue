@@ -310,7 +310,7 @@ export default {
 .questionnaire-description {
   width: 100%;
   float: left;
-  padding: 10px 20px;
+  padding: 0px 20px;
   overflow-y: auto;
   overflow-x: hidden;
   word-break: break-all;
