@@ -20,7 +20,7 @@ export default {
     },
     text: {
       type: String,
-      default: "",
+      default: " ",
     },
     trueValue: {
       type: [Array, Object, String, Number, Boolean],
@@ -253,5 +253,6 @@ label.hw-checkbox {
 .hw-checkbox-text {
   padding: 0 4px;
   text-align: start;
+  min-height: 1rem;
 }
 </style> 

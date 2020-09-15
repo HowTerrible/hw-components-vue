@@ -1,7 +1,7 @@
 <template>
   <div class="questionnaire-item-base">
     <h3 class="questionnaire-item-title">{{item.title}}</h3>
-    <ul class="questionnaire-selections">
+    <ul class="questionnaire-selections" v-if="localSelections && localSelections.length > 0">
       <li
         v-for="selection in localSelections"
         :key="selection.text"
@@ -96,9 +96,10 @@ export default {
           if (typeof item !== "object") {
             // 如果下表对应值，则value是下标
             // 否则就是文本
+            let startIndex = item.startIndex || 0;
             temp = indexMappingToValue
               ? {
-                  value: index,
+                  value: startIndex + index,
                   text: item,
                 }
               : {

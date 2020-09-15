@@ -64,6 +64,14 @@ const config = {
       indexMappingToValue: true,
       selections: ["问题6-1", "问题6-2", "问题6-3", "问题6-4", "问题6-5"],
     },
+    {
+      id: 7,
+      title: "7. 问卷问题7 有内容2分，没内容 0分",
+      render:(h)=>{
+        return <textarea></textarea>;
+      },
+      
+    },
   ],
   description: `  1.评估标准：salghowehgnsdlzgvhoiwauegihw;aoghiejfldjgowajgneiozeoi。
   2.其他内容：
@@ -72,21 +80,6 @@ const config = {
      (3) fadlskhgliwoasehgss;'hjesoijge;
      (4) fvsdklgno;serwgkoergglkhsaegawe;
      (5) flkahl;gh;weohgawei;g;awoeigw.`,
-  // description: (h) => {
-  //   return (
-  //     <div>
-  //       <p>
-  //         1.评估标准：salghowehgnsdlzgvhoiwauegihw;aoghiejfldjgowajgneiozeoi。
-  //       </p>
-  //       <p>2.其他内容：</p>
-  //       <p> (1) sajoglkserhlghesrihgoise;</p>
-  //       <p> (2) fkldshgoiwerashtgehnsgvwesa;</p>
-  //       <p> (3) fadlskhgliwoasehgss;'hjesoijge;</p>
-  //       <p> (4) fvsdklgno;serwgkoergglkhsaegawe;</p>
-  //       <p> (5) flkahl;gh;weohgawei;g;awoeigw.</p>
-  //     </div>
-  //   );
-  // },
 };
 
 export default {

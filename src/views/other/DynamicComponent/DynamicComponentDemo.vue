@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="demo-container">
     <dynamic-form :config="config" :model="model" :rules="rules"></dynamic-form>
   </div>
 </template>
@@ -36,7 +36,16 @@ const componentsConfig = [
   },
 ];
 
-const rules = { input1: [{ required: true, type: 'string', message: 'Please select time', trigger: 'change' }] };
+const rules = {
+  input1: [
+    {
+      required: true,
+      type: "string",
+      message: "Please select time",
+      trigger: "change",
+    },
+  ],
+};
 export default {
   name: "dynamic-demo",
   components: {
@@ -54,4 +63,5 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+</style>

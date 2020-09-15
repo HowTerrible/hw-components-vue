@@ -81,10 +81,10 @@ const otherDemo = [
     component: () => import("../views/other/DynamicComponent/DynamicComponentDemo.vue")
   },
   {
-    name: "EnentSeetter",
+    name: "EventSetter",
     group: "other",
-    path: "/other/DynamicComponent",
-    component: () => import("../views/other/EventSetter/EventSetter.vue")
+    path: "/other/EventSetter",
+    component: () => import("../views/other/EventSetter/EventSetterDemo.vue")
   },
 ]
 

@@ -65,6 +65,7 @@ export default {
   .hw-card-content {
     margin: 10px 0;
     padding: 0 10px;
+    overflow: hidden;
   }
 
   .hw-card-header {
