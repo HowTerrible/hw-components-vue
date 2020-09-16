@@ -8,14 +8,14 @@
             <keep-alive>
               <template v-for="item in items">
                 <questionnaire-item
-                  @value-change="onValueChanged"
-                  v-model="item.value"
                   v-if="currentItem === item"
                   :key="item.id"
                   :unit="unit"
                   :item="item"
                   :textKey="textKey"
                   :valueKey="valueKey"
+                  :value="value"
+                  @value-change="onValueChanged"
                 ></questionnaire-item>
               </template>
             </keep-alive>
@@ -39,6 +39,7 @@
         :selected-item="currentItem"
         :items="items"
         :unit="unit"
+        :value="value"
         @click="onAnchorClicked"
       ></questionnaire-anchor>
       <div class="questionnaire-total">
@@ -98,6 +99,10 @@ export default {
       default: () => [],
       require: true,
     },
+    value: {
+      type: Array,
+      default: () => [],
+    },
     unit: {
       type: String,
       default: "",
@@ -131,12 +136,15 @@ export default {
       default: "value",
     },
   },
+  model: {
+    prop: "value",
+    event: "value-change",
+  },
   data() {
     return {
       currentItem: this.items[0],
       currentIndex: 0,
       questionnaireStyle: { width: "auto" },
-      localValue: {},
       total: null,
       animationDirection: "",
     };
@@ -157,7 +165,6 @@ export default {
     },
   },
   watch: {
-    localValue(newValue) {},
     currentIndex(newValue, oldValue) {
       this.currentItem = this.items[newValue];
       // 用于计算动画的方向
@@ -169,7 +176,19 @@ export default {
           : "left";
     },
   },
-  created() {},
+  created() {
+    if (this.value.length === 0) {
+      // 如果value为空， 初始化（虽然组件里也做了初始化的操作）
+      this.items.forEach((item) => {
+        this.value.push({
+          id: item.id,
+          title: item.title,
+          value: undefined,
+          text: undefined,
+        });
+      });
+    }
+  },
   mounted() {
     let baseEl = this.$refs["questionnaire-base"];
     this.questionnaireStyle.width =
@@ -180,21 +199,16 @@ export default {
       this.currentIndex = index;
     },
     onValueChanged(value, item) {
-      if (value !== undefined || value !== null) {
-        this.$set(this.localValue, item.id, value);
-      } else {
-        this.$delete(this.localValue, item.id);
-      }
       this.calculateTotal();
     },
     calculateTotal() {
-      let firstItem = this.localValue[0];
-      this.total = Object.values(this.localValue).reduce(
-        (pre, cur) => {
-          return isNaN(cur) ? pre : pre + cur;
-        },
-        isNaN(firstItem) ? 0 : firstItem
-      );
+      let total = "";
+      if (this.value && this.value.length > 0) {
+        total = this.value.reduce((pre, cur) => {
+          return isNaN(cur.value) ? pre : pre + cur.value;
+        }, 0);
+      }
+      this.total = total;
     },
     onSave() {
       this.$emit("save", this.items, this.total);

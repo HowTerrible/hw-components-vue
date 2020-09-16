@@ -7,6 +7,7 @@
       :unit="unit"
       :item="item"
       :index="index"
+      :value="value"
       :selected="selectedItem === item"
     ></anchor-item>
   </ul>
@@ -35,6 +36,10 @@ export default {
     selectedItem: {
       type: Object,
       default: () => ({}),
+    },
+    value: {
+      type: Array,
+      default: () => [],
     },
   },
   computed: {},

@@ -67,10 +67,11 @@ const config = {
     {
       id: 7,
       title: "7. 问卷问题7 有内容2分，没内容 0分",
-      render:(h)=>{
-        return <textarea></textarea>;
+      useInput: true, // 使用Input而不是选项。默认false
+      inputValueKey: "text", // input的值存放的键。默认text
+      input2ValFunc: (value) => { // 评分标准。默认null
+        return value ? 2 : 0;
       },
-      
     },
   ],
   description: `  1.评估标准：salghowehgnsdlzgvhoiwauegihw;aoghiejfldjgowajgneiozeoi。

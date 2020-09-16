@@ -1,14 +1,15 @@
 <template>
   <div class="questionnaire-item-base">
     <h3 class="questionnaire-item-title">{{item.title}}</h3>
-    <ul class="questionnaire-selections" v-if="localSelections && localSelections.length > 0">
+    <textarea class="questionnaire-text" v-if="item.useInput" v-model="text" rows="10"></textarea>
+    <ul class="questionnaire-selections" v-if="!item.useInput">
       <li
         v-for="selection in localSelections"
         :key="selection.text"
         class="questionnaire-selection"
       >
         <hw-checkbox
-          v-model="localValue"
+          v-model="localvalue"
           :true-value="selection.value"
           :false-value="null"
           :text="selection.text"
@@ -36,12 +37,19 @@ export default {
      *  title               题目的标题
      *  indexMappingToValue 选项 的值是否来自下标。如果selections中的项目是【字符串】格式，会使用此变量判断，如果此值为true，选项选中的值就是他的下标，如果为false，选中项的值就是选项文本
      *  selections          选项 可以是字符串，或者对象。对象的格式默认是{text, value}，也可以通过后面的textKey 和 valueKey两个属性更换取值的键
-     *  description         描述
+     *  description         描述，会被访入pre标签中
+     *  useInput            使用Input而不是选项。默认false
+     *  inputValueKey       input的值存放的键。默认text
+     *  input2ValFunc       input中值生成value的标准，目前仅支持函数格式，参数就是input的值。返回value。如果没配置或者返回的value为空，将不会设置value
      *  }
      */
     item: {
       type: Object,
       default: () => ({}),
+    },
+    value: {
+      type: Array,
+      default: () => [],
     },
     /**
      * 选中结果后得得分单位
@@ -50,10 +58,6 @@ export default {
       type: String,
       default: "",
     },
-    /**
-     * 用于双向绑定选中的值
-     */
-    value: {},
     /**
      * 如果问题得每个选项是对象格式，可以选配每个题目的【文本】对应的键
      */
@@ -69,22 +73,52 @@ export default {
       default: "value",
     },
   },
-  model: {
-    prop: "value",
-    event: "value-change",
-  },
   data() {
     return {
       localSelections: [],
-      localValue: this.value,
+      localvalue: null,
+      text: this.item.text,
     };
   },
-  watch: {
-    value(newValue) {
-      this.localValue = newValue;
+  computed: {
+    inputValueKey() {
+      return this.item.inputValueKey;
     },
-    localValue(newValue) {
-      this.$emit("value-change", newValue, this.item);
+    localValueItem() {
+      let temp = this.value.find((item) => item.id === this.item.id);
+      let result = temp ? temp : undefined;
+      return result;
+    },
+  },
+  watch: {
+    localvalue: {
+      handler(newValue) {
+        if (!this.localValueItem) {
+          this.value.push({
+            id: this.item.id,
+            title: this.item.title,
+            value: newValue,
+            text: this.text,
+          });
+        } else {
+          this.localValueItem.value = newValue;
+        }
+        this.$emit("value-change", newValue, this.item);
+      },
+      immediate: true,
+    },
+    text: {
+      handler(newValue) {
+        this.$set(this.item, this.inputValueKey, newValue);
+        let valueResult = this.item.input2ValFunc
+          ? this.item.input2ValFunc(newValue)
+          : undefined;
+
+        if (valueResult !== undefined && valueResult !== null) {
+          this.localvalue = valueResult;
+        }
+      },
+      immediate: true,
     },
   },
   created() {
@@ -136,6 +170,10 @@ export default {
   top: 0;
   left: 0;
   right: 0;
+}
+
+.questionnaire-text {
+  width: 100%;
 }
 
 .questionnaire-selections {
