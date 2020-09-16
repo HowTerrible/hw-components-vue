@@ -1,5 +1,5 @@
 <template>
-  <hw-checkbox v-model="value" v-on="$listeners" v-bind="$attrs">
+  <hw-checkbox v-model="localValue" v-on="$listeners" v-bind="$attrs">
     <slot></slot>
   </hw-checkbox>
 </template>

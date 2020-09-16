@@ -22,8 +22,8 @@ export default new Vuex.Store({
   },
   getters: {
     get_pluginsref: (state) => (id) => state.pluginsRefs[id],
-    get_pluginsrefs: (state) => (id) => state.pluginsRefs,
+    get_pluginsrefs: (state) => () => state.pluginsRefs,
     get_globalData: (state) => (key) => state.componentGlobalData.get(key),
-    get_globalData_keys:(state)=> state.componentGlobalData.keys()
+    get_globalData_keys: (state) => () => state.componentGlobalData.keys()
   }
 })

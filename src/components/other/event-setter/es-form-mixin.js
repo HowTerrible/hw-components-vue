@@ -20,7 +20,7 @@ export default {
     },
   },
   methods: {
-    getEventTypes(){
+    getAvalibleEventTypes() {
       return [
         {
           name: "setValue",
@@ -28,8 +28,17 @@ export default {
         }
       ]
     },
-    setValue(value) {
-      this.localValue = value;
+    setValue({ sourceType, value }) {
+      if (sourceType === 1) {
+        this.localValue = value;
+      } else if (sourceType === 2) {
+        this.localValue = this.$store.getters.get_globalData(value)
+      }
+
+    },
+    getValue(params) {
+      console.log("getValue", params)
+      this.$store.commit("addComponentGlobalData", { key: params.key, value: this.localValue })
     }
   },
 }

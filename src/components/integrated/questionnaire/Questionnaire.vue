@@ -72,7 +72,7 @@
 
 <script>
 import Button from "@components/general/Button";
-import Item from "@components/layout/HW-Item";
+import Item from "@components/layout/Item";
 import QuestionnaireItem from "./QuestionnaireItem";
 import QuestionnaireAnchor from "./QuestionnaireAnchor";
 export default {
