@@ -24,7 +24,14 @@ export default {
       return [
         {
           name: "setValue",
-          params: {}
+          component:"set-value",
+          params: {
+
+          }
+        },
+        {
+          name: "getValue",
+          component:"get-value",
         }
       ]
     },

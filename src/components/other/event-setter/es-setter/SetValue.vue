@@ -18,10 +18,10 @@
 <script>
 import Checkbox from "@components/form/Checkbox";
 import Item from "@components/layout/Item";
-import mixin from "./event-configer-mixin";
+import EventConfiguratorMixin from "./event-configurator-mixin";
 export default {
   name: "set-value",
-  mixins: [mixin],
+  mixins: [EventConfiguratorMixin],
   components: {
     "hw-checkbox": Checkbox,
     "hw-item": Item,

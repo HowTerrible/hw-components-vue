@@ -9,6 +9,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    params: {
+      type: Object,
+      default: () => ({})
+    }
   },
   model: {
     prop: "event",
