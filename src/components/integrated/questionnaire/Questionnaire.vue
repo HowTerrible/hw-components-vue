@@ -211,7 +211,7 @@ export default {
       this.total = total;
     },
     onSave() {
-      this.$emit("save", this.items, this.total);
+      this.$emit("save", this.value, this.total);
     },
     onClose() {
       this.$emit("close");

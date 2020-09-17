@@ -6,6 +6,8 @@
       :unit="config.unit"
       :items="config.items"
       :description="config.description"
+      v-model="value"
+      @save="onSave"
       showTotal
     ></questionnaire>
   </hw-card>
@@ -69,7 +71,8 @@ const config = {
       title: "7. 问卷问题7 有内容2分，没内容 0分",
       useInput: true, // 使用Input而不是选项。默认false
       inputValueKey: "text", // input的值存放的键。默认text
-      input2ValFunc: (value) => { // 评分标准。默认null
+      input2ValFunc: (value) => {
+        // 评分标准。默认null
         return value ? 2 : 0;
       },
     },
@@ -91,10 +94,30 @@ export default {
   data() {
     return {
       config: {},
+      value: [
+        { id: 1, title: "1. 问卷问题1", value: 1 },
+        { id: 2, title: "2. 问卷问题2 问卷问题特别特别长", value: 1 },
+        { id: 3, title: "3. 问卷问题3", value: 2 },
+        { id: 4, title: "4. 问卷问题4", value: 3 },
+        { id: 5, title: "5. 问卷问题5", value: 3 },
+        { id: 6, title: "6. 问卷问题6", value: 3 },
+        {
+          id: 7,
+          title: "7. 问卷问题7 有内容2分，没内容 0分",
+          value: 2,
+          text: "1234124",
+        },
+      ],
     };
   },
   created() {
     this.config = config;
+  },
+  methods: {
+    onSave(item, total) {
+      console.log(item, total);
+      // console.log(JSON.stringify(item));
+    },
   },
 };
 </script>

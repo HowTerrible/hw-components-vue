@@ -82,7 +82,7 @@ export default {
   },
   computed: {
     inputValueKey() {
-      return this.item.inputValueKey;
+      return this.item.inputValueKey || "text";
     },
     localValueItem() {
       let temp = this.value.find((item) => item.id === this.item.id);
@@ -91,6 +91,15 @@ export default {
     },
   },
   watch: {
+    localValueItem: {
+      handler(newValue) {
+        if (newValue) {
+          this.localvalue = newValue.value;
+          this.text = newValue.text;
+        }
+      },
+      immediate: true,
+    },
     localvalue: {
       handler(newValue) {
         if (!this.localValueItem) {
@@ -109,7 +118,7 @@ export default {
     },
     text: {
       handler(newValue) {
-        this.$set(this.item, this.inputValueKey, newValue);
+        this.$set(this.localValueItem, this.inputValueKey, newValue);
         let valueResult = this.item.input2ValFunc
           ? this.item.input2ValFunc(newValue)
           : undefined;
