@@ -1,6 +1,12 @@
 <template>
   <label class="hw-checkbox" :class="localClass" :style="checkboxStyle">
-    <input type="checkbox" v-model="checked" @click="onClick" />
+    <input
+      type="checkbox"
+      :readonly="readonly"
+      :disabled="disabled"
+      v-model="checked"
+      @click="onClick"
+    />
     <span>
       <span class="hw-checkbox-text" v-if="!hideText">
         <slot>{{text}}</slot>
@@ -91,6 +97,7 @@ export default {
       this.onValueChanged(newValue, oldValue);
     },
     checked(newValue) {
+      if (this.readonly) return;
       this.$emit("checked", newValue, this.trueValue);
       // 勾选
       if (newValue) {
@@ -143,6 +150,7 @@ export default {
       }
     },
     onClick() {
+      if (this.readonly) return;
       this.clickedItem = true;
       this.$emit("click", this);
     },
@@ -229,6 +237,11 @@ label.hw-checkbox {
 
 .hw-checkbox>input:checked+span::after {
   opacity: 1;
+}
+
+.hw-checkbox.readonly {
+  user-select: none;
+  pointer-events: none;
 }
 
 .hw-checkbox.allow-wrap {

@@ -45,7 +45,7 @@ export default {
     },
     getValue(params) {
       console.log("getValue", params)
-      this.$store.commit("addComponentGlobalData", { key: params.key, value: this.localValue })
+      this.$store.commit("add_ComponentGlobalData", { key: params.key, value: this.localValue })
     }
   },
 }

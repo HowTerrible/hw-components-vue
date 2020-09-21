@@ -3,11 +3,10 @@
 </template>
 
 <script>
-import ESMixin from "./event-setter-mixin";
-import FormMixin from "./es-form-mixin";
+import { FormMixin, EventMixin, SetValue, GetValue } from "./es-event-mixins/";
 export default {
   name: "es-input",
-  mixins: [ESMixin, FormMixin],
+  mixins: [EventMixin, FormMixin, SetValue, GetValue],
 };
 </script>
 

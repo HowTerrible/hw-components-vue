@@ -68,12 +68,12 @@
 <script>
 import ESConfigurator from "@components/other/event-setter/ESConfigurator";
 import Card from "@components/layout/Card";
+import ESComponentItem from "@components/other/event-setter/ESComponentItem";
 import {
   ESButton,
   ESCheckbox,
-  ESComponentItem,
   ESInput,
-} from "../../../components/other//event-setter/index";
+} from "@components/other/event-setter/es-components/index";
 
 export default {
   name: "event-setter-demo",
@@ -116,7 +116,7 @@ export default {
       console.log(eventObj);
       this.$emit("save-event", eventObj);
       if (eventObj.name === "getValue") {
-        this.$store.commit("addComponentGlobalData", {
+        this.$store.commit("add_ComponentGlobalData", {
           key: eventObj.params.key,
           value: undefined,
         });

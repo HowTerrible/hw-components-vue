@@ -6,21 +6,14 @@
 
 <script>
 import Checkbox from "@components/form/Checkbox";
-import ESMixin from "./event-setter-mixin";
-import FormMixin from "./es-form-mixin";
+import { FormMixin, EventMixin, SetValue, GetValue } from "./es-event-mixins/";
 export default {
   name: "es-checkbox",
-  mixins: [ESMixin, FormMixin],
+  mixins: [EventMixin, FormMixin, SetValue, GetValue],
   components: {
     "hw-checkbox": Checkbox,
   },
-  methods: {
-    privodeEvents() {
-      return{
-        
-      }
-    }
-  },
+  methods: {},
 };
 </script>
 

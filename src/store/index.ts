@@ -12,7 +12,7 @@ export default new Vuex.Store({
     add_pluginsrefs(state, { key, item }) {
       state.pluginsRefs[key] = item
     },
-    addComponentGlobalData(state, { key, value }) {
+    add_ComponentGlobalData(state, { key, value }) {
       state.componentGlobalData.set(key, value);
     }
   },

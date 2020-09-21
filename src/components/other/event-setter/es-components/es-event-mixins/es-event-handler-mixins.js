@@ -1,3 +1,8 @@
+/**
+ * 需要配置zl-event-mixins里的东西一起混入使用
+ * 这里仅为提供组件可用事件的配置，及监听事件的逻辑
+ * 具体事件的触发逻辑参见pluginsMixins.js
+ */
 export default {
   props: {
     custom: {
@@ -8,6 +13,17 @@ export default {
         };
       },
     },
+  },
+  data() {
+    return {
+      avalibleEventTypes: [],
+      /**
+       * 有些组件的value键不是currentValue，可在该组件的created中重新设置
+       * 如果层级比较多请使用数组，例如["options", "value"]，
+       * 代码会解析成this["options"]["value"]
+       */
+      valueKey: "localValue"
+    };
   },
   created() {
     this.$on("customize-event", this.handleCustomizeEvent);
@@ -31,7 +47,12 @@ export default {
       })
     },
     handleCustomizeEvent({ name, params }) {
-      this[name] ? this[name](params) : console.log("Error! Component does not have value setter.")
-    }
+      if (name && params) {
+        this[name] ? this[name](params) : console.log(`Error! Component does not have setter [${name}].`)
+      }
+    },
+    getAvalibleEventTypes() {
+      return this.avalibleEventTypes;
+    },
   },
 }

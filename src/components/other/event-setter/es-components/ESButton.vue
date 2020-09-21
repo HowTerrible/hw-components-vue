@@ -6,17 +6,17 @@
 
 <script>
 import Button from "@components/general/Button";
-import ESMixin from "./event-setter-mixin";
+import { EventMixin } from "./es-event-mixins/";
 export default {
   name: "es-button",
-  mixins: [ESMixin],
+  mixins: [EventMixin],
   components: {
     "hw-button": Button,
   },
   methods: {
     onClick() {
-      this.eventFunctionHandler("click")
-    }
+      this.eventFunctionHandler("click");
+    },
   },
 };
 </script>

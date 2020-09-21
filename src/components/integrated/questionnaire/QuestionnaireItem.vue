@@ -9,24 +9,32 @@
         class="questionnaire-selection"
       >
         <hw-checkbox
-          v-model="localvalue"
+          v-model="localValue"
           :true-value="selection.value"
           :false-value="null"
           :text="selection.text"
-          allow-wrap
+          :readonly="selectionReadonly"
         ></hw-checkbox>
         <span class="selection-score">{{selection.value}} {{unit}}</span>
       </li>
     </ul>
+    <item-render
+      v-if="item.valueFromOutside && item.outsideConfig"
+      :render="item.outsideConfig.render"
+      :params="item.outsideConfig.params"
+      :valueSetter="outsideValueSetter"
+    ></item-render>
   </div>
 </template>
 
 <script>
+import ItemRender from "./questionnaire-item-render";
 import Checkbox from "@components/form/Checkbox";
-export default {
+let V_QuestionnaireItem = {
   name: "questionnaire-item",
   components: {
     "hw-checkbox": Checkbox,
+    "item-render": ItemRender,
   },
   props: {
     /**
@@ -41,6 +49,9 @@ export default {
      *  useInput            使用Input而不是选项。默认false
      *  inputValueKey       input的值存放的键。默认text
      *  input2ValFunc       input中值生成value的标准，目前仅支持函数格式，参数就是input的值。返回value。如果没配置或者返回的value为空，将不会设置value
+     *  selectionReadonly   checkbox全部只读，不可点击
+     *  valueFromOutside    值通过外部来源，需要设置callback
+     *  callback            值来源的回调函数
      *  }
      */
     item: {
@@ -76,7 +87,7 @@ export default {
   data() {
     return {
       localSelections: [],
-      localvalue: null,
+      localValue: null,
       text: this.item.text,
     };
   },
@@ -89,18 +100,21 @@ export default {
       let result = temp ? temp : undefined;
       return result;
     },
+    selectionReadonly() {
+      return this.item.selectionReadonly;
+    },
   },
   watch: {
     localValueItem: {
       handler(newValue) {
         if (newValue) {
-          this.localvalue = newValue.value;
+          this.localValue = newValue.value;
           this.text = newValue.text;
         }
       },
       immediate: true,
     },
-    localvalue: {
+    localValue: {
       handler(newValue) {
         if (!this.localValueItem) {
           this.value.push({
@@ -118,13 +132,14 @@ export default {
     },
     text: {
       handler(newValue) {
+        if (!this.item.inputValueKey) return;
         this.$set(this.localValueItem, this.inputValueKey, newValue);
         let valueResult = this.item.input2ValFunc
           ? this.item.input2ValFunc(newValue)
           : undefined;
 
         if (valueResult !== undefined && valueResult !== null) {
-          this.localvalue = valueResult;
+          this.localValue = valueResult;
         }
       },
       immediate: true,
@@ -159,8 +174,14 @@ export default {
         })
       : null;
   },
-  methods: {},
+  mounted() {},
+  methods: {
+    outsideValueSetter(value) {
+      this.localValue = value;
+    },
+  },
 };
+export default V_QuestionnaireItem;
 </script>
 
 <style lang="stylus" scoped>

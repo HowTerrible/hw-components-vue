@@ -85,52 +85,65 @@ export default {
     "questionnaire-description": () => import("./QuestionnaireDescription"),
   },
   props: {
+    /** 问卷标题 */
     title: {
       type: String,
       default: "",
       require: true,
     },
+    /** 问卷说明 */
     description: {
       type: String,
       default: "",
     },
+    /** 问卷的所有题目 */
     items: {
       type: Array,
       default: () => [],
       require: true,
     },
+    /** 问卷的值 支持v-model，但是暂不支持v-model。有计划将value改为对象类型以便包含total */
     value: {
       type: Array,
       default: () => [],
+      require: true,
     },
+    /** 全局单位，为方便计算总和，暂不支持各个题目独立单位。 */
     unit: {
       type: String,
       default: "",
     },
+    /** 说明文字用的标题。 */
     descriptionTitle: {
       type: String,
       default: "说明：",
     },
+    /** 说明的高度 */
     descriptionHeight: {
       type: Number,
       default: 150,
     },
+    /** 问卷题目锚点宽度 */
     anchorWidth: {
       type: Number,
       default: 150,
     },
+    /** 是否计算综合 */
     showTotal: {
       type: Boolean,
       default: false,
     },
+    /** 总分的文本 */
     totalText: {
       type: String,
       default: "总分",
     },
+    /** 每个选项展示文本的键 */
     textKey: {
       type: String,
       default: "text",
     },
+    /** 每个选项取值的键 */
     valueKey: {
       type: String,
       default: "value",

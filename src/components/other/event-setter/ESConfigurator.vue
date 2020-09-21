@@ -71,10 +71,7 @@ import Item from "@components/layout/Item";
 import ItemGroup from "@components/layout/ItemGroup";
 import Button from "@components/general/Button";
 import Checkbox from "@components/form/Checkbox";
-import {
-  SetValue,
-  GetValue,
-} from "../../../components/other//event-setter/index";
+import { SetValue, GetValue } from "./es-setter/index";
 export default {
   name: "es-configurator",
   components: {

@@ -20,10 +20,12 @@ export default {
       type: String,
       default: "title",
     },
+    /** 单位 */
     unit: {
       type: String,
       default: "",
     },
+    /** 是否被选中 */
     selected: {
       type: Boolean,
       default: false,

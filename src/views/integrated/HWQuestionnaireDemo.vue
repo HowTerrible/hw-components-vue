@@ -46,7 +46,7 @@ const config = {
       id: 3,
       title: "3. 问卷问题3",
       indexMappingToValue: true,
-      selections: ["问题3-1", "问题3-2", "问题3-3", "问题3-4", "问题3-5"],
+      selections: ["问题3-1", "问题3-2", "问题3-3", "问题3-4", "问题3-5", "问题3-6", "问题3-7", "问题3-5"],
     },
     {
       id: 4,
@@ -56,9 +56,19 @@ const config = {
     },
     {
       id: 5,
-      title: "5. 问卷问题5",
+      title: "5. 问卷问题5 此题目的结果来源自问卷3",
       indexMappingToValue: true,
       selections: ["问题5-1", "问题5-2", "问题5-3", "问题5-4", "问题5-5"],
+      valueFromOutside: true, // 值从外面来
+      selectionReadonly: true,
+      outsideConfig: {
+        render(h, params, valueSetter) {
+          function onclick() {
+            valueSetter(2);
+          }
+          return <input type="button" value="点击就赋值" onclick={onclick} />;
+        },
+      },
     },
     {
       id: 6,
@@ -99,7 +109,6 @@ export default {
         { id: 2, title: "2. 问卷问题2 问卷问题特别特别长", value: 1 },
         { id: 3, title: "3. 问卷问题3", value: 2 },
         { id: 4, title: "4. 问卷问题4", value: 3 },
-        { id: 5, title: "5. 问卷问题5", value: 3 },
         { id: 6, title: "6. 问卷问题6", value: 3 },
         {
           id: 7,
