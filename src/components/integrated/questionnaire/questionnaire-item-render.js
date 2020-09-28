@@ -1,6 +1,6 @@
 export default {
   render(h) {
-    return this.render(h, this.params, this.valueSetter)
+    return this.render(h, this.params, { valueSetter: this.valueSetter, textSetter: this.textSetter })
   },
   props: {
     render: {
@@ -9,6 +9,9 @@ export default {
     },
     params: {},
     valueSetter: {
+      type: Function,
+    },
+    textSetter: {
       type: Function,
     }
   },

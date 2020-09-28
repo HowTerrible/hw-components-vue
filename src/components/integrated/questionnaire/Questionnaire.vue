@@ -1,13 +1,13 @@
 <template>
   <div class="questionnaire-base" ref="questionnaire-base" :style="baseStyle">
     <div class="questionnaire-main" :style="questionnaireStyle">
-      <h2 class="questionnaire-title">{{title}}</h2>
+      <h2 class="questionnaire-title">{{ title }}</h2>
       <div class="questionnaire-content">
         <div class="questionnaire-inner">
-          <transition name="questionnaire-item">
+          <transition name="questionnaire-list">
             <keep-alive>
               <template v-for="item in items">
-                <questionnaire-item
+                <questionnaire-list
                   v-if="currentItem === item"
                   :key="item.id"
                   :unit="unit"
@@ -15,20 +15,25 @@
                   :textKey="textKey"
                   :valueKey="valueKey"
                   :value="value"
+                  :ignoreValue="ignoreValue"
                   @value-change="onValueChanged"
-                ></questionnaire-item>
+                ></questionnaire-list>
               </template>
             </keep-alive>
           </transition>
         </div>
       </div>
-      <div class="questionnaire-nav prev" @click="currentIndex-- " v-show="currentIndex>0">
+      <div
+        class="questionnaire-nav prev"
+        @click="currentIndex--"
+        v-show="currentIndex > 0"
+      >
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
       </div>
       <div
         class="questionnaire-nav next"
         @click="currentIndex++"
-        v-show="currentIndex<(items.length-1)"
+        v-show="currentIndex < items.length - 1"
       >
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
       </div>
@@ -40,6 +45,8 @@
         :items="items"
         :unit="unit"
         :value="value"
+        :ignoreValue="ignoreValue"
+        :ignoreValueAnchor="ignoreValueAnchor"
         @click="onAnchorClicked"
       ></questionnaire-anchor>
       <div class="questionnaire-total">
@@ -48,23 +55,39 @@
           content-width="40px"
           :title="totalText"
           text-align="right"
-        >{{total}} {{unit}}</hw-item>
+          >{{ total }} {{ unit }}</hw-item
+        >
       </div>
     </div>
     <div
       class="questionnaire-description"
       v-if="description"
-      :style="{height:descriptionHeight + 'px'}"
+      :style="{ height: descriptionHeight + 'px' }"
     >
-      <questionnaire-description v-if="typeof description === 'function'" :render="description"></questionnaire-description>
-      <pre v-else>
-{{descriptionTitle}}
-{{description}}</pre>
+      <questionnaire-description
+        v-if="typeof description === 'function'"
+        :render="description"
+      ></questionnaire-description>
+      <pre v-else
+        >{{ descriptionTitle }}
+{{ description }}</pre
+      >
     </div>
     <div class="questionnaire-btndiv">
       <slot name="footer">
-        <hw-button style="float:right; margin-right:10px" type="error" @click="onClose">关闭</hw-button>
-        <hw-button style="float:right; margin-right:10px" type="primary" @click="onSave">保存</hw-button>
+        <hw-button
+          style="float: right; margin-right: 10px"
+          type="error"
+          @click="onClose"
+          >关闭</hw-button
+        >
+        <hw-button
+          style="float: right; margin-right: 10px"
+          type="primary"
+          :disabled="disableSaveBtn"
+          @click="onSave"
+          >保存</hw-button
+        >
       </slot>
     </div>
   </div>
@@ -73,14 +96,14 @@
 <script>
 import Button from "@components/general/Button";
 import Item from "@components/layout/Item";
-import QuestionnaireItem from "./QuestionnaireItem";
+import QuestionnaireList from "./QuestionnaireList";
 import QuestionnaireAnchor from "./QuestionnaireAnchor";
 export default {
   name: "questionnaire",
   components: {
     "hw-item": Item,
     "hw-button": Button,
-    "questionnaire-item": QuestionnaireItem,
+    "questionnaire-list": QuestionnaireList,
     "questionnaire-anchor": QuestionnaireAnchor,
     "questionnaire-description": () => import("./QuestionnaireDescription"),
   },
@@ -133,6 +156,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableSaveWhenFinished: {
+      type: Boolean,
+      default: false,
+    },
     /** 总分的文本 */
     totalText: {
       type: String,
@@ -147,6 +174,15 @@ export default {
     valueKey: {
       type: String,
       default: "value",
+    },
+    /** 如果是函数，返回true则忽略此值 */
+    ignoreValue: {
+      type: [Function, Number, String],
+      default: null,
+    },
+    /** 右侧锚点用回调 */
+    ignoreValueAnchor: {
+      type: Function,
     },
   },
   model: {
@@ -174,6 +210,17 @@ export default {
       result.paddingBottom = this.description
         ? this.descriptionHeight + defaultPaddingBottom + "px"
         : defaultPaddingBottom + "px";
+      return result;
+    },
+    disableSaveBtn() {
+      let result = false;
+      if (this.enableSaveWhenFinished) {
+        this.value.findIndex(
+          (item) => item.value === undefined || item.value === null
+        ) >= 0
+          ? (result = true)
+          : null;
+      }
       return result;
     },
   },
@@ -218,10 +265,19 @@ export default {
       let total = "";
       if (this.value && this.value.length > 0) {
         total = this.value.reduce((pre, cur) => {
-          return isNaN(cur.value) ? pre : pre + cur.value;
+          return isNaN(cur.value) || this.handleIgnoreValue(cur)
+            ? pre
+            : pre + cur.value;
         }, 0);
       }
       this.total = total;
+    },
+    handleIgnoreValue(data) {
+      if (typeof this.ignoreValue === "function") {
+        return this.ignoreValue(data);
+      } else {
+        this.ignoreValue === data.value;
+      }
     },
     onSave() {
       this.$emit("save", this.value, this.total);

@@ -1,13 +1,21 @@
 <template>
-  <li class="questionnaire-anchor" :class="itemClass" @click="$dispatch('click', {item, index})">
-    <span class="questionnaire-anchor-text" :title="item[titleKey]">{{item[titleKey]}}</span>
-    <span class="questionaire-anchor-result">{{displayValue + localUnit}}</span>
+  <li
+    class="questionnaire-anchor"
+    :class="itemClass"
+    @click="$dispatch('click', { item, index })"
+  >
+    <span class="questionnaire-anchor-text" :title="item[titleKey]">{{
+      item[titleKey]
+    }}</span>
+    <span class="questionaire-anchor-result" :title="displayText">{{
+      displayText
+    }}</span>
   </li>
 </template>
 
 <script>
 export default {
-  name: "questionnaire-anchor",
+  name: "questionnaire-anchor-item",
   props: {
     item: {
       type: Object,
@@ -34,10 +42,22 @@ export default {
       type: Array,
       default: () => [],
     },
+    /** 如果是函数，返回true则忽略此值 */
+    ignoreValue: {
+      type: [Function, Number, String],
+      default: null,
+    },
+    /** 右侧锚点用回调 */
+    ignoreValueAnchor: {
+      type: Function,
+    },
   },
   computed: {
+    itemValue() {
+      return this.value.find((item) => item.id === this.item.id);
+    },
     displayValue() {
-      let itemValue = this.value.find((item) => item.id === this.item.id);
+      let itemValue = this.itemValue;
       let result =
         itemValue === undefined ||
         itemValue === null ||
@@ -46,6 +66,21 @@ export default {
           ? ""
           : itemValue.value;
       return result.toString();
+    },
+    displayText() {
+      let result;
+      if (
+        this.itemValue &&
+        typeof this.ignoreValue === "function" &&
+        this.ignoreValue(this.itemValue)
+      ) {
+        typeof this.ignoreValueAnchor === "function"
+          ? (result = this.ignoreValueAnchor(this.itemValue, this.item))
+          : this.displayValue + this.localUnit;
+      } else {
+        result = this.displayValue + this.localUnit;
+      }
+      return result;
     },
     localUnit() {
       let result = this.unit;
@@ -97,7 +132,7 @@ export default {
 .questionaire-anchor-result {
   float: right;
   display: inline-block;
-  width: 20%;
+  min-width: 20%;
   text-align: end;
 }
 </style>

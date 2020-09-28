@@ -2,12 +2,11 @@
   <ul class="questionnaire-anchor-base">
     <anchor-item
       v-for="(item, index) in items"
-      :titleKey="titleKey"
       :key="item.id"
-      :unit="unit"
       :item="item"
       :index="index"
       :value="value"
+      v-bind="$attrs"
       :selected="selectedItem === item"
     ></anchor-item>
   </ul>
@@ -24,14 +23,6 @@ export default {
     items: {
       type: Array,
       default: () => [],
-    },
-    titleKey: {
-      type: String,
-      default: "title",
-    },
-    unit: {
-      type: String,
-      default: "",
     },
     selectedItem: {
       type: Object,
