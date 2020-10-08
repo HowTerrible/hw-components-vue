@@ -8,3 +8,27 @@ $font-size-h1 = 26px;
 $font-weight-h1 = 600;
 $font-size-h2 = 18px;
 $font-weight-h2 = 600;
+
+::-webkit-scrollbar {
+  transition-duration: 200ms;
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255);
+  border-radius: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(201, 201, 202);
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  transition-duration: 200ms;
+  background: rgb(162, 162, 163);
+}

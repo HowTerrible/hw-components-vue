@@ -57,6 +57,12 @@ const layoutComponents = [
     path: "/layout/HWCardDemo",
     component: () => import("../views/layout/HWCardDemo.vue")
   },
+  {
+    name: "DraggableContainer",
+    group: "layout",
+    path: "/layout/HWDraggableContainerDemo",
+    component: () => import("../views/layout/HWDraggableContainerDemo.vue")
+  },
 ]
 const generalComponents = [
   {
@@ -65,6 +71,12 @@ const generalComponents = [
     path: "/general/HWTipsButtonDemo",
     component: () => import("../views/general/HWTipsButtonDemo.vue")
   },
+  {
+    name: "Echart",
+    group: "general",
+    path: "/general/HWEchartDemo",
+    component: () => import("../views/general/HWEchartDemo.vue")
+  },
 ]
 
 const otherDemo = [
@@ -72,7 +84,13 @@ const otherDemo = [
     name: "DynamicComponent",
     group: "other",
     path: "/other/DynamicComponent",
-    component: () => import("../views/other/DynamicComponent.vue")
+    component: () => import("../views/other/DynamicComponent/DynamicComponentDemo.vue")
+  },
+  {
+    name: "EventSetter",
+    group: "other",
+    path: "/other/EventSetter",
+    component: () => import("../views/other/EventSetter/EventSetterDemo.vue")
   },
 ]
 

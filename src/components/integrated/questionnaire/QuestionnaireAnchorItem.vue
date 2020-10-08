@@ -1,7 +1,7 @@
 <template>
   <li class="questionnaire-anchor" :class="itemClass" @click="$dispatch('click', {item, index})">
-    <span class="questionnaire-anchor-text" :title="item[textKey]">{{item[textKey]}}</span>
-    <span class="questionaire-anchor-result">{{value + localUnit}}</span>
+    <span class="questionnaire-anchor-text" :title="item[titleKey]">{{item[titleKey]}}</span>
+    <span class="questionaire-anchor-result">{{displayValue + localUnit}}</span>
   </li>
 </template>
 
@@ -16,23 +16,35 @@ export default {
     index: {
       type: Number,
     },
-    textKey: {
+    titleKey: {
       type: String,
-      default: "text",
+      default: "title",
     },
+    /** 单位 */
     unit: {
       type: String,
       default: "",
     },
+    /** 是否被选中 */
     selected: {
       type: Boolean,
       default: false,
     },
+    value: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
-    value() {
-      let result = this.item.value;
-      if (result === null || result === undefined) result = "";
+    displayValue() {
+      let itemValue = this.value.find((item) => item.id === this.item.id);
+      let result =
+        itemValue === undefined ||
+        itemValue === null ||
+        itemValue.value === undefined ||
+        itemValue.value === null
+          ? ""
+          : itemValue.value;
       return result.toString();
     },
     localUnit() {
@@ -86,5 +98,6 @@ export default {
   float: right;
   display: inline-block;
   width: 20%;
+  text-align: end;
 }
 </style>

@@ -65,7 +65,7 @@ export default {
 
   .inner {
     height: 100%;
-    margin: 0 300px 0 300px;
+    margin: 0 200px 0 300px;
   }
 
   .left {
@@ -75,7 +75,7 @@ export default {
 
   .right {
     width: 300px;
-    margin-left: -300px;
+    margin-left: -200px;
   }
 }
 

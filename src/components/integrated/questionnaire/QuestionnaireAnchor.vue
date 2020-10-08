@@ -2,11 +2,12 @@
   <ul class="questionnaire-anchor-base">
     <anchor-item
       v-for="(item, index) in items"
-      :textKey="textKey"
+      :titleKey="titleKey"
       :key="item.id"
       :unit="unit"
       :item="item"
       :index="index"
+      :value="value"
       :selected="selectedItem === item"
     ></anchor-item>
   </ul>
@@ -24,9 +25,9 @@ export default {
       type: Array,
       default: () => [],
     },
-    textKey: {
+    titleKey: {
       type: String,
-      default: "text",
+      default: "title",
     },
     unit: {
       type: String,
@@ -36,9 +37,18 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    value: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {},
 };
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+.questionnaire-anchor-base {
+  overflow-y: auto;
+  height: 100%;
+}
+</style>
