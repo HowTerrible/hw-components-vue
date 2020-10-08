@@ -3,7 +3,7 @@
     <div class="collapsible-base" :style="flowStyle">
       <div class="collapsible-display-area" ref="displayArea">
         <slot name="title">
-          <div class="collapsible-header" v-if="title"></div>
+          <div class="collapsible-header" v-if="title">{{title}}</div>
         </slot>
         <div class="collapsible-content">
           <slot></slot>

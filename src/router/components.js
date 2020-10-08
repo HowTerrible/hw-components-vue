@@ -4,6 +4,12 @@ const integratedComponents = [
     path: "/integrated/HWQuestionnaireDemo",
     group: "integrated",
     component: () => import("../views/integrated/HWQuestionnaireDemo")
+  },
+  {
+    name: "PropertySetter",
+    path: "/integrated/HWPropertySetterDemo",
+    group: "integrated",
+    component: () => import("../views/integrated/PropertySetter/HWPropertySetter")
   }
 ]
 const dataComponents = [
