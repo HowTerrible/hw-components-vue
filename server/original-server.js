@@ -3,6 +3,8 @@ const url = require("url")
 const mime = require("mime")
 const fsPromise = require("./fs");
 const { query } = require("express");
+const qs = require("qs");
+const { stringify } = require("querystring");
 /**
  * req => 请求对象，客户端传递的信息
  *  req.pathname
@@ -78,6 +80,44 @@ const server = http.createServer(async (req, res) => {
       }))
     }
   }
+
+  if (pathname === '/api/add' && method === 'POST') {
+    let text = '';
+    req.on('data', chunk => {
+      text += chunk;
+    })
+    req.on('end', async _ => {
+      let body = qs.parse(text),
+        {
+          name = '',
+          phone = ''
+        } = body;
+      let USER_DATA = JSON.parse(await fsPromise.readFile('./mock/user.json'));
+      USER_DATA.push({
+        id: USER_DATA.length === 0 ? 1 : parseInt(USER_DATA[USER_DATA.length - 1]['id']) + 1,
+        name,
+        phone
+      });
+      res.writeHead(200, {
+        'context-type': 'application-json'
+      })
+      fsPromise.writeFile('./mock/user.json', USER_DATA)
+        .then(_ => {
+          res.end(JSON.stringify({
+            code: 0,
+            msg: 'ok'
+          }))
+        })
+        .catch(err => {
+          console.log(err)
+          res.end(JSON.stringify({
+            code: 1,
+            msg: "add failed"
+          }))
+        });
+    })
+  }
+
   return;
 });
 server.listen(9000, _ => {
