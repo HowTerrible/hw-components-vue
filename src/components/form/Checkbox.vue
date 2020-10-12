@@ -9,7 +9,7 @@
     />
     <span>
       <span class="hw-checkbox-text" v-if="!hideText">
-        <slot>{{text}}</slot>
+        <slot>{{ text }}</slot>
       </span>
     </span>
   </label>
@@ -132,7 +132,7 @@ export default {
   },
   mounted() {},
   methods: {
-    onValueChanged(newValue, oldValue) {
+    onValueChanged(newValue) {
       // 当值改变时，需要判断truevalue在不在value数组
       if (this.isDataArray) {
         let selectedItem = newValue.find((item) => {
@@ -153,6 +153,9 @@ export default {
       if (this.readonly) return;
       this.clickedItem = true;
       this.$emit("click", this);
+    },
+    setCheck(newValue) {
+      this.checked = newValue;
     },
   },
 };

@@ -13,9 +13,13 @@
     </template>
     <ul class="questionnaire-selections" v-if="!item.useInput">
       <questionnaire-item
-        v-for="selection in localSelections"
-        :key="selection.text"
+        v-for="(selection, index) in selections"
+        :indexMappingToValue="item.indexMappingToValue"
+        :key="typeof selection === 'object' ? selection[textKey] : selection"
+        :index="index"
         :item="selection"
+        :textKey="textKey"
+        :valueKey="valueKey"
         :readonly="selectionReadonly"
         v-bind="$attrs"
         v-model="localValue"
@@ -27,6 +31,7 @@
       :params="item.otherComponent.params"
       :valueSetter="outsideValueSetter"
       :textSetter="outsideTextSetter"
+      :value="{ text, value: localValue }"
     ></item-render>
   </div>
 </template>
@@ -85,12 +90,14 @@ let V_QuestionnaireItem = {
   },
   data() {
     return {
-      localSelections: [],
-      localValue: null,
+      localValue: {},
       text: this.item.text,
     };
   },
   computed: {
+    selections() {
+      return this.item.selections || [];
+    },
     inputType() {
       return this.item.inputType || "text";
     },
@@ -116,76 +123,50 @@ let V_QuestionnaireItem = {
     localValueItem: {
       handler(newValue) {
         if (newValue) {
-          this.localValue = newValue.value;
+          this.localValue = { value: newValue.value, index: newValue.index };
           this.text = newValue.text;
         }
       },
       immediate: true,
     },
     localValue: {
-      handler(newValue) {
+      handler({ value, index }) {
         if (!this.localValueItem) {
           this.value.push({
             id: this.item.id,
             title: this.item.title,
-            value: newValue,
+            value: value,
+            index: index,
             text: this.text,
           });
         } else {
-          this.$set(this.localValueItem, "value", newValue);
+          this.$set(this.localValueItem, "value", value);
+          this.$set(this.localValueItem, "index", index);
         }
-        this.$emit("value-change", newValue, this.item);
+        this.$emit("value-change", value, this.item);
       },
       immediate: true,
     },
     text: {
       handler(newValue) {
-        if (!this.item.inputValueKey) return;
+        if (!this.inputValueKey) return;
         this.$set(this.localValueItem, this.inputValueKey, newValue);
         let valueResult = this.item.input2ValFunc
           ? this.item.input2ValFunc(newValue)
           : undefined;
 
         if (valueResult !== undefined && valueResult !== null) {
-          this.localValue = valueResult;
+          this.localValue = { value: valueResult };
         }
       },
       immediate: true,
     },
   },
-  created() {
-    const indexMappingToValue = this.item.indexMappingToValue;
-    this.item.selections
-      ? this.item.selections.forEach((item, index) => {
-          let temp;
-          // 如果选项是基础数据类类型
-          if (typeof item !== "object") {
-            // 如果下表对应值，则value是下标
-            // 否则就是文本
-            let startIndex = item.startIndex || 0;
-            temp = indexMappingToValue
-              ? {
-                  value: startIndex + index,
-                  text: item,
-                }
-              : {
-                  value: item,
-                  text: item,
-                };
-          } else {
-            temp = {
-              text: item[this.textKey],
-              value: item[this.valueKey],
-            };
-          }
-          this.localSelections.push(temp);
-        })
-      : null;
-  },
+  created() {},
   mounted() {},
   methods: {
     outsideValueSetter(value) {
-      this.localValue = value;
+      this.localValue = { value };
     },
     outsideTextSetter(text) {
       this.text = text;

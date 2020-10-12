@@ -25,14 +25,14 @@
       </div>
       <div
         class="questionnaire-nav prev"
-        @click="currentIndex--"
+        @click="toPrev"
         v-show="currentIndex > 0"
       >
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
       </div>
       <div
         class="questionnaire-nav next"
-        @click="currentIndex++"
+        @click="toNext"
         v-show="currentIndex < items.length - 1"
       >
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
@@ -98,6 +98,7 @@ import Button from "@components/general/Button";
 import Item from "@components/layout/Item";
 import QuestionnaireList from "./QuestionnaireList";
 import QuestionnaireAnchor from "./QuestionnaireAnchor";
+import _ from "lodash";
 export default {
   name: "questionnaire",
   components: {
@@ -157,6 +158,10 @@ export default {
       default: false,
     },
     enableSaveWhenFinished: {
+      type: Boolean,
+      default: false,
+    },
+    clickToNext: {
       type: Boolean,
       default: false,
     },
@@ -248,6 +253,13 @@ export default {
         });
       });
     }
+    this.valueChangeDebounce = _.debounce(
+      () => {
+        this.toNext();
+      },
+      1000,
+      { leading: false }
+    );
   },
   mounted() {
     let baseEl = this.$refs["questionnaire-base"];
@@ -259,6 +271,9 @@ export default {
       this.currentIndex = index;
     },
     onValueChanged(value, item) {
+      if (this.clickToNext && value !== undefined && value !== null) {
+        this.valueChangeDebounce();
+      }
       this.calculateTotal();
     },
     calculateTotal() {
@@ -277,6 +292,16 @@ export default {
         return this.ignoreValue(data);
       } else {
         this.ignoreValue === data.value;
+      }
+    },
+    toPrev() {
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+      }
+    },
+    toNext() {
+      if (this.currentIndex < this.items.length - 1) {
+        this.currentIndex++;
       }
     },
     onSave() {

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Item from "@components/layout/HW-Item";
+import Item from "@components/layout/Item";
 export default {
   name: "event-setter",
   components: {

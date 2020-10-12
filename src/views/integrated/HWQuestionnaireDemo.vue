@@ -61,7 +61,7 @@ const config = {
         "问题3-5",
         "问题3-6",
         "问题3-7",
-        "问题3-5",
+        "问题3-8",
       ],
     },
     {
@@ -78,7 +78,7 @@ const config = {
       valueFromOutside: true, // 值从外面来
       selectionReadonly: true,
       otherComponent: {
-        render(h, params, { valueSetter, textSetter }) {
+        render(h, params, data, { valueSetter, textSetter }) {
           function onclick(event) {
             valueSetter(2);
           }
@@ -104,7 +104,7 @@ const config = {
       ],
       inputValueKey: "text", // input的值存放的键。默认textotherComponent: {
       otherComponent: {
-        render(h, params, { textSetter }) {
+        render(h, params, data, { textSetter }) {
           function onclick(event) {
             textSetter(event.target.value);
           }
@@ -127,8 +127,14 @@ const config = {
       title: "8. 问卷问题8",
       selections: [
         {
-          text: "是",
+          text: "是1",
           value: 5,
+          checkboxValue: 1
+        },
+        {
+          text: "是2",
+          value: 5,
+          checkboxValue: 2
         },
         {
           text: "否",

@@ -1,6 +1,6 @@
 export default {
   render(h) {
-    return this.render(h, this.params, { valueSetter: this.valueSetter, textSetter: this.textSetter })
+    return this.render(h, this.params, this.value, { valueSetter: this.valueSetter, textSetter: this.textSetter })
   },
   props: {
     render: {
@@ -13,6 +13,9 @@ export default {
     },
     textSetter: {
       type: Function,
+    },
+    value: {
+      type: Object
     }
   },
 }
