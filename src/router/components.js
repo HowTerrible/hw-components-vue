@@ -6,6 +6,12 @@ const integratedComponents = [
     component: () => import("../views/integrated/HWQuestionnaireDemo")
   },
   {
+    name: "EditableHistoryList",
+    path: "/integrated/HWHistoryListDemo",
+    group: "integrated",
+    component: () => import("../views/integrated/HistoryList/HWHistoryListDemo")
+  },
+  {
     name: "PropertySetter",
     path: "/integrated/HWPropertySetterDemo",
     group: "integrated",

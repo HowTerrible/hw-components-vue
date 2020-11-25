@@ -5,6 +5,7 @@
       @value-change="localValueChanged"
       v-model="localValue"
       :true-value="localItem.checkboxValue"
+      allowWrap
       :false-value="null"
       :text="localItem.text"
       :readonly="readonly"
@@ -30,6 +31,10 @@ export default {
     unit: {
       type: String,
       default: "",
+    },
+    startIndex: {
+      type: Number,
+      default: 0,
     },
     index: {},
     value: {},
@@ -84,15 +89,14 @@ export default {
         if (typeof newValue !== "object") {
           // 如果下表对应值，则value是下标
           // 否则就是文本
-          let startIndex = newValue.startIndex || 0;
           /**
            * 为每个项目增加checkboxValue，以处理值相同但选项不是同一个的情况
            */
           temp = this.indexMappingToValue
             ? {
-                value: startIndex + this.index,
+                value: this.startIndex + this.index,
                 text: newValue,
-                checkboxValue: startIndex + this.index,
+                checkboxValue: this.startIndex + this.index,
               }
             : {
                 value: newValue,

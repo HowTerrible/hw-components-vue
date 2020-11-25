@@ -18,6 +18,7 @@
         :key="typeof selection === 'object' ? selection[textKey] : selection"
         :index="index"
         :item="selection"
+        :start-index="item.startIndex"
         :textKey="textKey"
         :valueKey="valueKey"
         :readonly="selectionReadonly"
