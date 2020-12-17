@@ -1,9 +1,12 @@
 <template>
-  <input type="text" />
+  <input type="text" v-model="localValue" />
 </template>
 
 <script>
-export default {};
+import FormMixin from "../mixins/form-mixin";
+export default {
+  mixins: [FormMixin],
+};
 </script>
 
 <style lang="stylus" scoped></style>

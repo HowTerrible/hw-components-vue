@@ -2,7 +2,7 @@
   <div class="hw-card-base">
     <div class="hw-card-header" v-if="showHeader">
       <slot name="title">
-        <span v-if="title">{{title}}</span>
+        <span v-if="title">{{ title }}</span>
       </slot>
     </div>
     <div class="hw-card-content">
@@ -10,7 +10,7 @@
     </div>
     <div class="hw-card-footer" v-if="showHeader">
       <slot name="footer">
-        <span v-if="footer">{{footer}}</span>
+        <span v-if="footer">{{ footer }}</span>
       </slot>
     </div>
   </div>
@@ -68,7 +68,7 @@ export default {
     overflow: hidden;
   }
 
-  .hw-card-header {
+  .hw-card-footer, .hw-card-header {
     border-top: 1px solid $bordercolor-gray-light;
     padding: 5px 10px;
   }
