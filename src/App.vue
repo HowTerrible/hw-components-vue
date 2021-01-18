@@ -8,10 +8,11 @@
       </div>
     </div>
     <div class="left">
+      <hw-list text-key="name" :data="componentsConfig"></hw-list>
       <ul>
         <template v-for="config in componentsConfig">
           <li :key="config.name">
-            <router-link :to="config.path">{{config.name}}</router-link>
+            <router-link :to="config.path">{{ config.name }}</router-link>
           </li>
         </template>
       </ul>
@@ -24,9 +25,11 @@ import { componentsConfig } from "./router/components";
 // import IFrameDialog from "./components/general/HW-IFrame-Dialog";
 // import Button from "./components/general/HW-Button";
 // import TipsButton from "./components/general/HW-TipsButton";
+import { List } from "@components/data/List";
 export default {
   name: "home",
   components: {
+    "hw-list": List,
     // "hw-tipsbtn": TipsButton,
     // "hw-iframe-dialog": IFrameDialog,
     // "hw-button": Button,

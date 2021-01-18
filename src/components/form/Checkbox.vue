@@ -130,7 +130,6 @@ export default {
   created() {
     this.onValueChanged(this.value);
   },
-  mounted() {},
   methods: {
     onValueChanged(newValue) {
       // 当值改变时，需要判断truevalue在不在value数组
