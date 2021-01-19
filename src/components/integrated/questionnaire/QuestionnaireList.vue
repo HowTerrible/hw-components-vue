@@ -157,7 +157,10 @@ let V_QuestionnaireItem = {
           : undefined;
 
         if (valueResult !== undefined && valueResult !== null) {
-          this.localValue = { value: valueResult };
+          // 初始化的时候可能会出现问题, 所以使用nextTick
+          this.$nextTick(() => {
+            this.localValue = { value: valueResult };
+          });
         }
       },
       immediate: true,
