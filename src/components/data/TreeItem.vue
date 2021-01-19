@@ -2,12 +2,20 @@
   <li class="hw-tree-item-base" :class="classes">
     <hw-arrow
       v-if="hasChildren"
-      :direction="expand?'down':'right'"
-      @click="()=>{expand=!expand}"
+      :direction="expand ? 'down' : 'right'"
+      @click="
+        () => {
+          expand = !expand;
+        }
+      "
       class="hw-tree-item-arrow"
     ></hw-arrow>
-    <span class="hw-item-text" @click="onTextClicked">{{data[textKey]}}</span>
-    <ul v-if="hasChildren" class="hw-tree-item-children" :style="itemChildrenStyle">
+    <span class="hw-item-text" @click="onTextClicked">{{ data[textKey] }}</span>
+    <ul
+      v-if="hasChildren"
+      class="hw-tree-item-children"
+      :style="itemChildrenStyle"
+    >
       <template v-for="item in data[childrenKey]">
         <transition :key="item[idKey]" name="hw-tree-item">
           <hw-tree-item
@@ -40,9 +48,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    selectedItem:{
+    selectedItem: {
       type: Boolean,
-      defalut: null
+      defalut: null,
     },
     idKey: {
       type: String,
@@ -97,6 +105,7 @@ export default {
   },
   methods: {
     changeChildrenStyle() {
+      // eslint-disable-next-line
       let style = this.itemChildrenStyle;
     },
     onTextClicked() {

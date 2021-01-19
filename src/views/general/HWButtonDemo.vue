@@ -7,6 +7,7 @@
         v-for="item in deleteBtns"
         :key="item"
       ></hw-delete-button>
+      <hw-button></hw-button>
     </hw-card>
   </div>
 </template>
@@ -32,7 +33,7 @@ export default {
     };
   },
   created() {
-    console.log(moment().diff(moment("2022-04-12 19:29:00"), 'days'));
+    console.log(moment().diff(moment("2022-04-12 19:29:00"), "days"));
   },
   methods: {
     moment,

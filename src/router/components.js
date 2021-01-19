@@ -16,6 +16,11 @@ const integratedComponents = [
     path: "/integrated/HWPropertySetterDemo",
     group: "integrated",
     component: () => import("../views/integrated/PropertySetter/HWPropertySetter")
+  }, {
+    name: "CanvasQcode",
+    path: "/integrated/HWCanvasQcodeDemo",
+    group: "integrated",
+    component: () => import("../views/integrated/HWCanvasQcodeDemo/")
   }
 ]
 const dataComponents = [
@@ -62,6 +67,12 @@ const layoutComponents = [
     group: "layout",
     path: "/layout/HWCardDemo",
     component: () => import("../views/layout/HWCardDemo.vue")
+  },
+  {
+    name: "DrawerDemo",
+    group: "layout",
+    path: "/layout/HWDrawerDemo",
+    component: () => import("../views/layout/HWDrawerDemo.vue")
   },
   {
     name: "DraggableContainer",

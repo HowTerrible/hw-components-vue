@@ -78,7 +78,9 @@ const config = {
       valueFromOutside: true, // 值从外面来
       selectionReadonly: true,
       otherComponent: {
+        // eslint-disable-next-line
         render(h, params, data, { valueSetter, textSetter }) {
+          // eslint-disable-next-line
           function onclick(event) {
             valueSetter(2);
           }
@@ -129,12 +131,12 @@ const config = {
         {
           text: "是1",
           value: 5,
-          checkboxValue: 1
+          checkboxValue: 1,
         },
         {
           text: "是2",
           value: 5,
-          checkboxValue: 2
+          checkboxValue: 2,
         },
         {
           text: "否",

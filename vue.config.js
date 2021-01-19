@@ -15,7 +15,8 @@ module.exports = {
         '@components': resolve("src/components"),
         '@js': resolve("src/js"),
         '@styles': resolve("src/styles"),
-        '@directives': resolve("src/directives")
+        '@directives': resolve("src/directives"),
+        '@assets': resolve("src/assets")
       }
     }
   },

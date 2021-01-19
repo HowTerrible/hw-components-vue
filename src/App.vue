@@ -11,7 +11,7 @@
       <ul>
         <template v-for="config in componentsConfig">
           <li :key="config.name">
-            <router-link :to="config.path">{{config.name}}</router-link>
+            <router-link :to="config.path">{{ config.name }}</router-link>
           </li>
         </template>
       </ul>
@@ -64,6 +64,7 @@ export default {
   }
 
   .inner {
+    overflow: hidden;
     height: 100%;
     margin: 0 200px 0 300px;
   }
@@ -80,6 +81,8 @@ export default {
 }
 
 .display-area {
+  height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 </style>

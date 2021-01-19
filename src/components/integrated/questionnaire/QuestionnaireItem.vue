@@ -140,7 +140,7 @@ export default {
       },
       immediate: true,
     },
-    localValue(newValue) {
+    localValue() {
       // 因为值需要装箱并增加index属性，所以单独处理
       // this.$emit("value-change", newValue);
     },
