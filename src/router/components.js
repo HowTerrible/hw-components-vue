@@ -81,6 +81,14 @@ const layoutComponents = [
     component: () => import("../views/layout/HWDraggableContainerDemo.vue")
   },
 ]
+const navigationComponents = [
+  {
+    name: "BreadcrumbDemo",
+    group: "navigation",
+    path: "/navigation/HWBreadcrumbDemo",
+    component: () => import("../views/navigation/HWBreadcrumbDemo.vue")
+  },
+]
 const generalComponents = [
   {
     name: "TipsButtonDemo",
@@ -114,6 +122,7 @@ const otherDemo = [
 export const componentsConfig = [
   ...dataComponents,
   ...layoutComponents,
+  ...navigationComponents,
   ...generalComponents,
   ...integratedComponents,
   ...otherDemo
