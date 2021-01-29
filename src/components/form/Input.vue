@@ -1,5 +1,5 @@
 <template>
-  <input type="text" v-model="localValue" />
+  <input class="hw-input" type="text" v-model="localValue" />
 </template>
 
 <script>
@@ -9,4 +9,13 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+.hw-input{
+  display: inline-block;
+  height: $height;
+}
+
+.hw-input.small{
+  height: $hegiht-small
+}
+</style>
